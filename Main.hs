@@ -10,7 +10,7 @@ main = do
   mainLoop []
 
 -- Loop principal que aguarda comandos do usuário
-mainLoop :: [Produto] -> IO ()
+mainLoop :: [Produto] [Cliente] -> IO ()
 mainLoop produtos = do
   putStrLn "Escolha uma opção:"
   putStrLn "1. Adicionar Produto"
