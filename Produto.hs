@@ -1,8 +1,11 @@
+-- Produto.hs
+module Produto where
+
 data Produto = Produto
   { codigo :: Int
   , nome :: String
   , categoria :: String
-  , preco :: Double
+  , precoCompra :: Double
   , precoVenda :: Double
   , quantidade :: Int
   , fabricacao :: String
