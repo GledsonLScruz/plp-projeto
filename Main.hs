@@ -1,17 +1,19 @@
+{-# OPTIONS_GHC -Wno-missing-fields #-}
 module Main where
 
 import Produto
+import Cliente
 
 main :: IO ()
 main = do
   putStrLn "Bem-vindo ao sistema de e-commerce em Haskell!"
 
   -- Exemplo de loop principal que aguarda comandos do usuário
-  mainLoop []
+  mainLoop [] []
 
 -- Loop principal que aguarda comandos do usuário
-mainLoop :: [Produto] [Cliente] -> IO ()
-mainLoop produtos = do
+mainLoop :: [Produto] -> [Cliente] -> IO ()
+mainLoop produtos clientes = do
   putStrLn "Escolha uma opção:"
   putStrLn "1. Adicionar Produto"
   putStrLn "2. Atualizar Estoque"
@@ -26,7 +28,7 @@ mainLoop produtos = do
       novoProduto <- lerProduto
       -- let produtosAtualizados = adicionarProduto produtos novoProduto
       putStrLn "Produto adicionado com sucesso."
-      mainLoop produtos
+      mainLoop produtos clientes
 
     "2" -> do
       putStrLn "Digite o código do produto a ser atualizado:"
@@ -37,24 +39,24 @@ mainLoop produtos = do
       let novaQuantidade = read quantidadeStr :: Int
       -- let produtosAtualizados = atualizarEstoque produtos codigoProduto novaQuantidade
       putStrLn "Estoque atualizado com sucesso."
-      mainLoop produtos
+      mainLoop produtos clientes
 
     "3" -> do
       -- Implemente a lógica para realizar uma compra
       -- Lembre-se de lidar com carrinhos, avaliações, etc.
       putStrLn "Funcionalidade de compra ainda não implementada."
-      mainLoop produtos
+      mainLoop produtos clientes
 
     "4" -> do
       -- Implemente a lógica para gerar relatórios
       putStrLn "Funcionalidade de geração de relatórios ainda não implementada."
-      mainLoop produtos
+      mainLoop produtos clientes
 
     "5" -> putStrLn "Saindo do sistema."
 
     _ -> do
       putStrLn "Opção inválida. Tente novamente."
-      mainLoop produtos
+      mainLoop produtos clientes
 
 -- Função auxiliar para ler um novo produto do usuário
 lerProduto :: IO Produto

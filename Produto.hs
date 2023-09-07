@@ -15,31 +15,31 @@ data Produto = Produto
 
 -- Funções de acesso para os atributos de Produto
 getCodigo :: Produto -> Int
-getCodigo (Produto cod _ _ _ _ _ _ _ _) = cod
+getCodigo = codigo
 
 getDisponivel :: Produto -> Bool
-getDisponivel (Produto _ dis _ _ _ _ _ _ _) = dis
+getDisponivel = disponivel
 
 getNome :: Produto -> String
-getNome (Produto _ _ nom _ _ _ _ _ _) = nom
+getNome = nome
 
 getCategoria :: Produto -> String
-getCategoria (Produto _ _ _ cat _ _ _ _ _) = cat
+getCategoria = categoria
 
 getPrecoCompra :: Produto -> Double
-getPrecoCompra (Produto _ _ _ _ pc _ _ _ _) = pc
+getPrecoCompra = precoCompra
 
 getPrecoVenda :: Produto -> Double
-getPrecoVenda (Produto _ _ _ _ _ pv _ _ _) = pv
+getPrecoVenda = precoVenda
 
 getQuantidade :: Produto -> Int
-getQuantidade (Produto _ _ _ _ _ _ qt _ _) = qt
+getQuantidade = quantidade
 
 getFabricacao :: Produto -> String
-getFabricacao (Produto _ _ _ _ _ _ _ fab _) = fab
+getFabricacao = fabricacao
 
 getValidade :: Produto -> String
-getValidade (Produto _ _ _ _ _ _ _ _ val) = val
+getValidade = validade
 
 -- Funções de atualização para os atributos de Produto
 setCodigo :: Int -> Produto -> Produto
