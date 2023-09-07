@@ -1,4 +1,3 @@
-{-# OPTIONS_GHC -Wno-missing-fields #-}
 module Main where
 
 import Produto
@@ -84,6 +83,7 @@ lerProduto = do
   return
     Produto
       { codigo = codigoProduto
+      , disponivel = True
       , nome = nomeProduto
       , categoria = categoriaProduto
       , precoCompra = precoProduto
