@@ -2,6 +2,7 @@ module Main where
 
 import Produto
 import Cliente
+import ProdutoRepository
 
 main :: IO ()
 main = do
