@@ -1,5 +1,5 @@
 module EAN13 where
-
+  
 import Control.Monad (replicateM)
 import Data.Char (digitToInt, intToDigit)
 import System.Random (randomRIO)

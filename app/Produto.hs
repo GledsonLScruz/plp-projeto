@@ -1,5 +1,3 @@
-
-
 module Produto where
   
 data Produto = Produto
