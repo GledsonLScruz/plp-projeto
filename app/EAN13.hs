@@ -1,4 +1,8 @@
-import System.Random
+module EAN13 where
+
+import Control.Monad (replicateM)
+import Data.Char (digitToInt, intToDigit)
+import System.Random (randomRIO)
 
 -- Gera um código EAN-13 aleatório
 gerarCodigoEAN13 :: IO String
