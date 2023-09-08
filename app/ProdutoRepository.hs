@@ -10,20 +10,27 @@ criarRepositorioProdutosVazio = []
 adicionarProduto :: [Produto] -> Produto -> [Produto]
 adicionarProduto repositorio produto = produto : repositorio
 
+-- Função para buscar um produto por código em uma lista de produtos
+buscarProdutoPorCodigo :: [Produto] -> Int -> Maybe Produto
+buscarProdutoPorCodigo [] _ = Nothing 
+buscarProdutoPorCodigo (produto:produtos) codigo
+  | codigo == getCodigo produto = Just produto
+  | otherwise = buscarProdutoPorCodigo produtos codigo
+
 -- Remova um produto do repositório
-removerProduto :: [Produto] -> String -> [Produto]
+removerProduto :: [Produto] -> Int -> [Produto]
 removerProduto repositorio codigoProduto =
   filter (\produto -> codigo produto /= codigoProduto) repositorio
 
 -- Função para alterar qualquer atributo de um produto especificado
-alterarAtributoProduto :: [Produto] -> String -> (Produto -> Produto) -> [Produto]
+alterarAtributoProduto :: [Produto] -> Int -> (Produto -> Produto) -> [Produto]
 alterarAtributoProduto [] _ _ = []  
 alterarAtributoProduto (produto:produtos) codigoProduto alteracao
   | codigo produto == codigoProduto = alteracao produto : produtos
   | otherwise = produto : alterarAtributoProduto produtos codigoProduto alteracao
 
 -- Funções para atualizar um produto especificado 
-atualizarProduto :: [Produto] -> String -> Bool -> String -> String -> Double -> Double -> Int -> String -> String -> [Produto]
+atualizarProduto :: [Produto] -> Int -> Bool -> String -> String -> Double -> Double -> Int -> String -> String -> [Produto]
 atualizarProduto [] _ _ _ _ _ _ _ _ _ = []  
 atualizarProduto (produto:produtos) codigoProduto newDisponivel newNome newCategoria newPrecoCompra newPrecoVenda newQuantidade newFabricacao newValidade
   | codigo produto == codigoProduto = do
@@ -42,8 +49,9 @@ atualizarProduto (produto:produtos) codigoProduto newDisponivel newNome newCateg
   | otherwise = produto : atualizarProduto produtos codigoProduto newDisponivel newNome newCategoria newPrecoCompra newPrecoVenda newQuantidade newFabricacao newValidade
 
 
--- Exemplo de list comprehension: obter todos os produtos de uma categoria específica
-produtosDaCategoria :: [Produto] -> String -> [Produto]
-produtosDaCategoria repositorioProdutos categoriaDesejada =
-  [ produto | produto <- repositorioProdutos, categoria produto == categoriaDesejada ]
+-- Obter todos os produtos com um atributo específico
+produtosPorAtributo :: Eq a => [Produto] -> (Produto -> a) -> a -> [Produto]
+produtosPorAtributo repositorioProdutos atributoDesejado valorDesejado =
+  [produto | produto <- repositorioProdutos, atributoDesejado produto == valorDesejado]
+
 

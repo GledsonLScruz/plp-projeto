@@ -2,7 +2,7 @@ module Main where
 
 import Produto
 
-import Cliente 
+import Cliente
 
 import ProdutoRepository
 
@@ -10,64 +10,69 @@ main :: IO ()
 main = do
   putStrLn "Bem-vindo ao sistema de e-commerce em Haskell!"
 
-  -- Exemplo de loop principal que aguarda comandos do usuário
-  mainLoop [] []
+  let produtos = ProdutoRepository.criarRepositorioProdutosVazio
+  let clientes = []
+  let id = 0 
+  
+  admLoop produtos clientes id
 
--- Loop principal que aguarda comandos do usuário
-mainLoop :: [Produto] -> [Cliente] -> IO ()
-mainLoop produtos clientes = do
-  putStrLn "Escolha uma opção:"
-  putStrLn "1. Adicionar Produto"
-  putStrLn "2. Atualizar Estoque"
-  putStrLn "3. Realizar Compra"
-  putStrLn "4. Gerar Relatório"
-  putStrLn "5. Sair"
+-- Loop principal que aguarda comandos do administrador
+admLoop :: [Produto] -> [Cliente] -> Int -> IO ()
+admLoop produtos clientes id = do
+  putStrLn $ "Opções de administrador:\n" ++
+           "1. Adicionar Novo Produto\n" ++
+           "2. Atualiza Produto por Completo\n" ++
+           "3. Atualizar Produto por Atributo\n" ++
+           "4. Ler Produto por Codigo\n" ++
+           "5. Ler Produtos por Atributo\n" ++
+           "6. Remover Produto por Codigo\n" ++
+           "7. Sair do Modo Administrador\n" ++
+           "8. Sair do Sistema\n" 
 
   opcao <- getLine
 
   case opcao of
     "1" -> do
-      novoProduto <- lerProduto
-      -- let produtosAtualizados = adicionarProduto produtos novoProduto
+      novoProduto <- lerProduto id
+      let produtosAtualizados = ProdutoRepository.adicionarProduto produtos novoProduto
       putStrLn "Produto adicionado com sucesso."
-      mainLoop produtos clientes
+      admLoop produtosAtualizados clientes (id + 1)
 
     "2" -> do
-      putStrLn "Digite o código do produto a ser atualizado:"
+      putStrLn "Digite o código do produto a ser lido:"
       codigoProdutoStr <- getLine
       let codigoProduto = read codigoProdutoStr :: Int
-      putStrLn "Digite a nova quantidade:"
-      quantidadeStr <- getLine
-      let novaQuantidade = read quantidadeStr :: Int
-      -- let produtosAtualizados = atualizarEstoque produtos codigoProduto novaQuantidade
-      putStrLn "Estoque atualizado com sucesso."
-      mainLoop produtos clientes
+      let produtoEncontrado = buscarProdutoPorCodigo produtos codigoProduto
+      case produtoEncontrado of
+        Just produto -> do
+          putStrLn "Produto encontrado:"
+          print produto
+        Nothing -> do
+          putStrLn "Produto não encontrado."
+      admLoop produtos clientes id
 
     "3" -> do
       -- Implemente a lógica para realizar uma compra
       -- Lembre-se de lidar com carrinhos, avaliações, etc.
       putStrLn "Funcionalidade de compra ainda não implementada."
-      mainLoop produtos clientes
+      admLoop produtos clientes id
 
     "4" -> do
       -- Implemente a lógica para gerar relatórios
       putStrLn "Funcionalidade de geração de relatórios ainda não implementada."
-      mainLoop produtos clientes
+      admLoop produtos clientes id
 
     "5" -> putStrLn "Saindo do sistema."
 
     _ -> do
       putStrLn "Opção inválida. Tente novamente."
-      mainLoop produtos clientes
+      admLoop produtos clientes id
 
 -- Função auxiliar para ler um novo produto do usuário
-lerProduto :: IO Produto
-lerProduto = do
+lerProduto :: Int -> IO Produto
+lerProduto idSistema = do
   putStrLn "Digite o nome do produto:"
   nomeProduto <- getLine
-  putStrLn "Digite o código do produto:"
-  codigoProdutoStr <- getLine
-  let codigoProduto = read codigoProdutoStr 
   putStrLn "Digite a categoria do produto:"
   categoriaProduto <- getLine
   putStrLn "Digite o preço do produto:"
@@ -83,9 +88,10 @@ lerProduto = do
   dataFabricacao <- getLine
   putStrLn "Digite a data de validade do produto:"
   dataValidade <- getLine
+  let id = idSistema
   return
     Produto
-      { codigo = codigoProduto
+      { codigo = id
       , disponivel = True
       , nome = nomeProduto
       , categoria = categoriaProduto

@@ -1,7 +1,7 @@
 module Produto where
   
 data Produto = Produto
-  { codigo :: String
+  { codigo :: Int
   , disponivel :: Bool
   , nome :: String
   , categoria :: String
@@ -13,7 +13,7 @@ data Produto = Produto
   } deriving (Show)
 
 -- Funções de acesso para os atributos de Produto
-getCodigo :: Produto -> String
+getCodigo :: Produto -> Int
 getCodigo = codigo
 
 getDisponivel :: Produto -> Bool
@@ -41,7 +41,7 @@ getValidade :: Produto -> String
 getValidade = validade
 
 -- Funções de atualização para os atributos de Produto
-setCodigo :: String -> Produto -> Produto
+setCodigo :: Int -> Produto -> Produto
 setCodigo novoCodigo produto = produto { codigo = novoCodigo }
 
 setDisponivel :: Bool -> Produto -> Produto
