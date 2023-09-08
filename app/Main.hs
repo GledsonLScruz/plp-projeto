@@ -1,7 +1,6 @@
 module Main where
 
 import Produto
-
 import Cliente
 import ProdutoRepository
 
@@ -21,12 +20,11 @@ admLoop produtos clientes id = do
   putStrLn $ "Opções de administrador:\n" ++
            "1. Adicionar Novo Produto\n" ++
            "2. Atualiza Produto por Completo\n" ++
-           "3. Atualizar Produto por Atributo\n" ++
-           "4. Ler Produto por Codigo\n" ++
-           "5. Ler Produtos por Atributo\n" ++
-           "6. Remover Produto por Codigo\n" ++
-           "7. Sair do Modo Administrador\n" ++
-           "8. Sair do Sistema\n" 
+           "3. Ler Produto por Codigo\n" ++
+           "4. Ler Produtos por Categoria\n" ++
+           "5. Remover Produto por Codigo\n" ++
+           "6. Sair do Modo Administrador\n" ++
+           "7. Sair do Sistema\n" 
 
   opcao <- getLine
 
@@ -50,25 +48,23 @@ admLoop produtos clientes id = do
       putStrLn "Digite o código do produto a ser lido:"
       codigoProdutoStr <- getLine
       let codigoProduto = read codigoProdutoStr :: Int
-      putStrLn "Digite o atributo a ser alterado:"
-      atributoStr <- getLine
-      let atributo = read atributoStr :: (Produto -> a)
-      putStrLn "Digite o novo valor do atributo a ser alterado:"
-      novoValorStr <- getLine
-      let novoValor = read novoValorStr :: a
-
-      let produtoEncontrado = atualizarProdutoPorAtributo produtos codigoProduto atributo novoValor
-
-      putStrLn "Produto atualizado com sucesso."
-    
-      admLoop produtos clientes id
+      let produto = buscarProdutoPorCodigo produtos codigoProduto
+      case produto of
+        Just p -> do
+          putStrLn $ "Produto encontrado: " ++ show p
+          admLoop produtos clientes id
+        Nothing -> do
+          putStrLn "Produto não encontrado."
+          admLoop produtos clientes id
       
-
     "4" -> do
+      putStrLn "Digite a categoria a ser buscada:"
+      categoria <- getLine
+      let produtosEncontrados = buscarProdutosPorCategoria produtos categoria
+      putStrLn $ "Produtos encontrados: " ++ show produtosEncontrados
+      admLoop produtos clientes id
 
     "5" -> do
-
-    "6" -> do
       putStrLn "Digite o código do produto a ser removido:"
       codigoProdutoStr <- getLine
       let codigoProduto = read codigoProdutoStr :: Int
@@ -76,9 +72,11 @@ admLoop produtos clientes id = do
       putStrLn "Produto removido com sucesso."
       admLoop produtosAtualizados clientes id
 
-    "7" -> do
+    "6" -> do
+      putStrLn "Falta implementar"
+      admLoop produtos clientes id
 
-    "8" -> putStrLn "Saindo do sistema."
+    "7" -> putStrLn "Saindo do sistema."
 
     _ -> do
       putStrLn "Opção inválida. Tente novamente."
