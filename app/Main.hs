@@ -9,7 +9,7 @@ main :: IO ()
 main = do
   putStrLn "Bem-vindo ao sistema de e-commerce em Haskell!"
 
-  let produtos = ProdutoRepository.criarRepositorioProdutosVazio
+  let produtos = criarRepositorioProdutosVazio
   let clientes = []
   let id = 0 
 
