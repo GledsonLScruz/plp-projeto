@@ -3,7 +3,6 @@ module Main where
 import Produto
 
 import Cliente
-
 import ProdutoRepository
 
 main :: IO ()
@@ -13,7 +12,7 @@ main = do
   let produtos = ProdutoRepository.criarRepositorioProdutosVazio
   let clientes = []
   let id = 0 
-  
+
   admLoop produtos clientes id
 
 -- Loop principal que aguarda comandos do administrador
@@ -34,35 +33,52 @@ admLoop produtos clientes id = do
   case opcao of
     "1" -> do
       novoProduto <- lerProduto id
-      let produtosAtualizados = ProdutoRepository.adicionarProduto produtos novoProduto
+      let produtosAtualizados = adicionarProduto produtos novoProduto
       putStrLn "Produto adicionado com sucesso."
       admLoop produtosAtualizados clientes (id + 1)
 
     "2" -> do
+      putStrLn "Digite o código do produto a ser atualizado:"
+      codigoProdutoStr <- getLine
+      let codigoProduto = read codigoProdutoStr :: Int
+      novoProduto <- lerProduto codigoProduto
+      let produtosAtualizados = atualizarProduto produtos codigoProduto novoProduto
+      putStrLn "Produto atualizado com sucesso."
+      admLoop produtosAtualizados clientes id
+
+    "3" -> do
       putStrLn "Digite o código do produto a ser lido:"
       codigoProdutoStr <- getLine
       let codigoProduto = read codigoProdutoStr :: Int
-      let produtoEncontrado = buscarProdutoPorCodigo produtos codigoProduto
-      case produtoEncontrado of
-        Just produto -> do
-          putStrLn "Produto encontrado:"
-          print produto
-        Nothing -> do
-          putStrLn "Produto não encontrado."
-      admLoop produtos clientes id
+      putStrLn "Digite o atributo a ser alterado:"
+      atributoStr <- getLine
+      let atributo = read atributoStr :: (Produto -> a)
+      putStrLn "Digite o novo valor do atributo a ser alterado:"
+      novoValorStr <- getLine
+      let novoValor = read novoValorStr :: a
 
-    "3" -> do
-      -- Implemente a lógica para realizar uma compra
-      -- Lembre-se de lidar com carrinhos, avaliações, etc.
-      putStrLn "Funcionalidade de compra ainda não implementada."
+      let produtoEncontrado = atualizarProdutoPorAtributo produtos codigoProduto atributo novoValor
+
+      putStrLn "Produto atualizado com sucesso."
+    
       admLoop produtos clientes id
+      
 
     "4" -> do
-      -- Implemente a lógica para gerar relatórios
-      putStrLn "Funcionalidade de geração de relatórios ainda não implementada."
-      admLoop produtos clientes id
 
-    "5" -> putStrLn "Saindo do sistema."
+    "5" -> do
+
+    "6" -> do
+      putStrLn "Digite o código do produto a ser removido:"
+      codigoProdutoStr <- getLine
+      let codigoProduto = read codigoProdutoStr :: Int
+      let produtosAtualizados = removerProduto produtos codigoProduto
+      putStrLn "Produto removido com sucesso."
+      admLoop produtosAtualizados clientes id
+
+    "7" -> do
+
+    "8" -> putStrLn "Saindo do sistema."
 
     _ -> do
       putStrLn "Opção inválida. Tente novamente."
