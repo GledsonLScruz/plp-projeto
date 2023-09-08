@@ -1,4 +1,3 @@
--- Cliente.hs
 module Cliente where
 
 data Cliente = Cliente

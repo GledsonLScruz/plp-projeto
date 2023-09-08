@@ -1,6 +1,7 @@
--- Produto.hs
-module Produto where
 
+
+module Produto where
+  
 data Produto = Produto
   { codigo :: String
   , disponivel :: Bool

@@ -1,4 +1,5 @@
 module ProdutoRepository where
+
 import Produto
 
 -- Crie uma lista de produtos (um repositório)
