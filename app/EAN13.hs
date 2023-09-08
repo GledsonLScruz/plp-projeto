@@ -1,4 +1,4 @@
-import random
+import System.Random
 
 -- Gera um código EAN-13 aleatório
 gerarCodigoEAN13 :: IO String
