@@ -64,7 +64,7 @@ lerProduto = do
   nomeProduto <- getLine
   putStrLn "Digite o código do produto:"
   codigoProdutoStr <- getLine
-  let codigoProduto = read codigoProdutoStr :: Int
+  let codigoProduto = read codigoProdutoStr 
   putStrLn "Digite a categoria do produto:"
   categoriaProduto <- getLine
   putStrLn "Digite o preço do produto:"
