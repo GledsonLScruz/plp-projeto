@@ -27,7 +27,8 @@ executable plp-projeto
     -- Modules included in this executable, other than Main.
     other-modules:    Cliente, 
                       Produto,
-                      ProdutoRepository
+                      ProdutoRepository,
+                      ProdutoService
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:

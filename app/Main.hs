@@ -3,6 +3,7 @@ module Main where
 import Produto
 import Cliente
 import ProdutoRepository
+import ProdutoService
 
 main :: IO ()
 main = do
@@ -10,7 +11,7 @@ main = do
 
   let produtos = criarRepositorioProdutosExemplo
   let clientes = []
-  let id = 0 
+  let id = 9 
 
   admLoop produtos clientes id
 
@@ -31,7 +32,7 @@ admLoop produtos clientes id = do
   case opcao of
     "1" -> do
       novoProduto <- lerProduto id
-      let produtosAtualizados = adicionarProduto produtos novoProduto
+      let produtosAtualizados = adicionarProdutoService produtos novoProduto
       putStrLn "Produto adicionado com sucesso."
       admLoop produtosAtualizados clientes (id + 1)
 
@@ -40,7 +41,7 @@ admLoop produtos clientes id = do
       codigoProdutoStr <- getLine
       let codigoProduto = read codigoProdutoStr :: Int
       novoProduto <- lerProduto codigoProduto
-      let produtosAtualizados = atualizarProduto produtos codigoProduto novoProduto
+      let produtosAtualizados = atualizarProdutoService produtos codigoProduto novoProduto
       putStrLn "Produto atualizado com sucesso."
       admLoop produtosAtualizados clientes id
 
@@ -48,10 +49,10 @@ admLoop produtos clientes id = do
       putStrLn "Digite o código do produto a ser lido:"
       codigoProdutoStr <- getLine
       let codigoProduto = read codigoProdutoStr :: Int
-      let produto = buscarProdutoPorCodigo produtos codigoProduto
+      let produto = buscarProdutoPorCodigoService produtos codigoProduto
       case produto of
         Just p -> do
-          putStrLn $ "Produto encontrado: " ++ show p
+          putStrLn $ produtoToString p
           admLoop produtos clientes id
         Nothing -> do
           putStrLn "Produto não encontrado."
@@ -60,7 +61,7 @@ admLoop produtos clientes id = do
     "4" -> do
       putStrLn "Digite a categoria a ser buscada:"
       categoria <- getLine
-      let produtosEncontrados = buscarProdutosPorCategoria produtos categoria
+      let produtosEncontrados = buscarProdutosPorCategoriaService produtos categoria
       putStrLn $ "Produtos encontrados: " ++ show produtosEncontrados
       admLoop produtos clientes id
 
@@ -68,7 +69,7 @@ admLoop produtos clientes id = do
       putStrLn "Digite o código do produto a ser removido:"
       codigoProdutoStr <- getLine
       let codigoProduto = read codigoProdutoStr :: Int
-      let produtosAtualizados = removerProduto produtos codigoProduto
+      let produtosAtualizados = removerProdutoService produtos codigoProduto
       putStrLn "Produto removido com sucesso."
       admLoop produtosAtualizados clientes id
 
@@ -81,6 +82,7 @@ admLoop produtos clientes id = do
     _ -> do
       putStrLn "Opção inválida. Tente novamente."
       admLoop produtos clientes id
+
 
 -- Função auxiliar para ler um novo produto do usuário
 lerProduto :: Int -> IO Produto

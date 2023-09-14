@@ -60,3 +60,16 @@ setNomeUsuario novoNomeUsuario cliente = cliente { nomeUsuario = novoNomeUsuario
 
 setSenha :: String -> Cliente -> Cliente
 setSenha novaSenha cliente = cliente { senha = novaSenha }
+
+clienteToString :: Cliente -> String
+clienteToString cliente =
+  "----------------------------------------\n" ++
+  "Nome Completo: " ++ nomeCompleto cliente ++ "\n" ++
+  "Sexo: " ++ [sexo cliente] ++ "\n" ++
+  "Data de Nascimento: " ++ dataNascimento cliente ++ "\n" ++
+  "CPF: " ++ cpf cliente ++ "\n" ++
+  "Email: " ++ email cliente ++ "\n" ++
+  "Telefone: " ++ telefone cliente ++ "\n" ++
+  "Nome de Usuário: " ++ nomeUsuario cliente ++ "\n" ++
+  "Senha: " ++ senha cliente ++ "\n" ++
+  "----------------------------------------"
