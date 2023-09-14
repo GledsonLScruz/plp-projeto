@@ -3,8 +3,8 @@ module ProdutoRepository where
 import Produto
 
 -- Crie uma lista de produtos (um repositório)
-criarRepositorioProdutosPadrao :: [Produto]
-criarRepositorioProdutosPadrao = [
+criarRepositorioProdutosExemplo :: [Produto]
+criarRepositorioProdutosExemplo = [
   Produto {codigo = 1, disponivel = True, nome = "Arroz", categoria = "Alimento", precoCompra = 10.0, precoVenda = 15.0, quantidade = 100, fabricacao = "01/01/2021", validade = "01/01/2022"}, 
   Produto {codigo = 2, disponivel = True, nome = "Feijão", categoria = "Alimento", precoCompra = 5.0, precoVenda = 10.0, quantidade = 50, fabricacao = "01/01/2021", validade = "01/01/2022"}, 
   Produto {codigo = 3, disponivel = True, nome = "Coca-Cola", categoria = "Bebida", precoCompra = 5.0, precoVenda = 10.0, quantidade = 50, fabricacao = "01/01/2021", validade = "01/01/2022"}, 
