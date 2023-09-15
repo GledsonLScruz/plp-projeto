@@ -16,6 +16,15 @@ main = do
 
   admLoop produtos clientes id
 
+-- Loop inicial do sistema
+initialLoop :: [Produto] -> [Cliente] -> Int -> IO ()
+initialLoop produtos clientes id = do
+
+
+
+
+  
+
 -- Loop principal que aguarda comandos do administrador
 admLoop :: [Produto] -> [Cliente] -> Int -> IO ()
 admLoop produtos clientes id = do
