@@ -10,7 +10,6 @@ main = do
   let produtos = criarRepositorioProdutosExemplo
   let clientes = criarRepositorioClientesExemplo
   let idProduto = 9
-  let idCliente = 5
 
-  initialController produtos clientes idProduto idCliente
+  initialController produtos clientes idProduto
 
