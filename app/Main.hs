@@ -8,7 +8,7 @@ import Auxiliares
 
 main :: IO ()
 main = do
-  putStrLn "Bem-vindo ao sistema de e-commerce em Haskell!"
+  putStrLn "Bem-vindo ao sistema de Supermercado Online em Haskell!"
 
   let produtos = criarRepositorioProdutosExemplo
   let clientes = []
