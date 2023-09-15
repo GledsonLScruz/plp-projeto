@@ -14,18 +14,51 @@ main = do
   let clientes = []
   let id = 9 
 
-  admLoop produtos clientes id
+  initialLoop produtos clientes id
 
 -- Loop inicial do sistema
 initialLoop :: [Produto] -> [Cliente] -> Int -> IO ()
 initialLoop produtos clientes id = do
+  putStrLn $ "Opções de cliente:\n" ++
+           "1. Entrar como Cliente\n" ++
+           "2. Registrar como Cliente\n" ++
+           "3. Entrar como Administrador\n" ++
+           "4. Visualizar Produtos\n" ++
+           "5. Sair do Sistema\n" 
+
+  opcao <- getLine
+
+  case opcao of
+    "1" -> do
+      putStrLn "Falta implementar"
+      initialLoop produtos clientes id
+
+    "2" -> do
+      putStrLn "Falta implementar"
+      initialLoop produtos clientes id
+
+    "3" -> do
+      putStrLn "Falta implementar"
+      initialLoop produtos clientes id
+
+    "4" -> do
+      putStrLn $ "Produtos disponíveis:\n" ++ show produtos
+      initialLoop produtos clientes id
+
+    "5" -> putStrLn "Saindo do sistema."
+
+    _ -> do
+      putStrLn "Opção inválida. Tente novamente."
+      initialLoop produtos clientes id
+
+-- Loop que guarda comandos do cliente
+clienteLoop :: [Produto] -> [Cliente] -> Int -> IO ()
+clienteLoop produtos clientes id = do
 
 
 
 
-  
-
--- Loop principal que aguarda comandos do administrador
+-- Loop que aguarda comandos do administrador
 admLoop :: [Produto] -> [Cliente] -> Int -> IO ()
 admLoop produtos clientes id = do
   putStrLn $ "Opções de administrador:\n" ++
