@@ -12,19 +12,19 @@ main = do
 
   let produtos = criarRepositorioProdutosExemplo
   let clientes = []
-  let id = 9 
+  let id = 9
 
   initialLoop produtos clientes id
 
 -- Loop inicial do sistema
 initialLoop :: [Produto] -> [Cliente] -> Int -> IO ()
 initialLoop produtos clientes id = do
-  putStrLn $ "Opções de cliente:\n" ++
+  putStrLn $ "Opções de visitante:\n" ++
            "1. Entrar como Cliente\n" ++
            "2. Registrar como Cliente\n" ++
            "3. Entrar como Administrador\n" ++
            "4. Visualizar Produtos\n" ++
-           "5. Sair do Sistema\n" 
+           "5. Sair do Sistema\n"
 
   opcao <- getLine
 
@@ -42,7 +42,7 @@ initialLoop produtos clientes id = do
       initialLoop produtos clientes id
 
     "4" -> do
-      putStrLn $ "Produtos disponíveis:\n" ++ show produtos
+      mapM_ (putStrLn . produtoToString) produtos
       initialLoop produtos clientes id
 
     "5" -> putStrLn "Saindo do sistema."
@@ -52,8 +52,8 @@ initialLoop produtos clientes id = do
       initialLoop produtos clientes id
 
 -- Loop que guarda comandos do cliente
-clienteLoop :: [Produto] -> [Cliente] -> Int -> IO ()
-clienteLoop produtos clientes id = do
+-- clienteLoop :: [Produto] -> [Cliente] -> Int -> IO ()
+-- clienteLoop produtos clientes id = do
 
 
 
@@ -68,7 +68,7 @@ admLoop produtos clientes id = do
            "4. Ler Produtos por Categoria\n" ++
            "5. Remover Produto por Codigo\n" ++
            "6. Sair do Modo Administrador\n" ++
-           "7. Sair do Sistema\n" 
+           "7. Sair do Sistema\n"
 
   opcao <- getLine
 
@@ -100,12 +100,12 @@ admLoop produtos clientes id = do
         Nothing -> do
           putStrLn "Produto não encontrado."
           admLoop produtos clientes id
-      
+
     "4" -> do
       putStrLn "Digite a categoria a ser buscada:"
       categoria <- getLine
       let produtosEncontrados = buscarProdutosPorCategoriaService produtos categoria
-      putStrLn $ "Produtos encontrados: " ++ show produtosEncontrados
+      mapM_ (putStrLn . produtoToString) produtosEncontrados
       admLoop produtos clientes id
 
     "5" -> do

@@ -71,9 +71,9 @@ setValidade novaData produto = produto { validade = novaData }
 produtoToString :: Produto -> String
 produtoToString produto =
   "----------------------------------------\n" ++
+  "Nome: " ++ nome produto ++ "\n" ++
   "Código: " ++ show (codigo produto) ++ "\n" ++
   "Disponível: " ++ show (disponivel produto) ++ "\n" ++
-  "Nome: " ++ nome produto ++ "\n" ++
   "Categoria: " ++ categoria produto ++ "\n" ++
   "Preço de Compra: R$" ++ show (precoCompra produto) ++ "\n" ++
   "Preço de Venda: R$" ++ show (precoVenda produto) ++ "\n" ++
