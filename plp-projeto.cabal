@@ -29,7 +29,9 @@ executable plp-projeto
                       Produto,
                       ProdutoRepository,
                       ProdutoService,
-                      Auxiliares
+                      Auxiliares,
+                      ClienteRepository,
+                      Controllers
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:

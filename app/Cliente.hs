@@ -21,8 +21,8 @@ getSexo = sexo
 getDataNascimento :: Cliente -> String
 getDataNascimento = dataNascimento 
 
-getCPF :: Cliente -> String
-getCPF = cpf 
+getCpf :: Cliente -> String
+getCpf = cpf 
 
 getEmail :: Cliente -> String
 getEmail = email 

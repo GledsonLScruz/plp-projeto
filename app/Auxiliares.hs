@@ -1,6 +1,7 @@
 module Auxiliares where
 
 import Produto
+import Cliente
 
 -- Função auxiliar para ler um novo produto do usuário
 lerProduto :: Int -> IO Produto
@@ -35,3 +36,23 @@ lerProduto idSistema = do
       , fabricacao = dataFabricacao
       , validade = dataValidade
       }
+
+-- Crie uma lista de produtos (um repositório)
+criarRepositorioProdutosExemplo :: [Produto]
+criarRepositorioProdutosExemplo = [
+  Produto {codigo = 1, disponivel = True, nome = "Arroz", categoria = "Alimento", precoCompra = 10.0, precoVenda = 15.0, quantidade = 100, fabricacao = "01/01/2021", validade = "01/01/2022"}, 
+  Produto {codigo = 2, disponivel = True, nome = "Feijão", categoria = "Alimento", precoCompra = 5.0, precoVenda = 10.0, quantidade = 50, fabricacao = "01/01/2021", validade = "01/01/2022"}, 
+  Produto {codigo = 3, disponivel = True, nome = "Coca-Cola", categoria = "Bebida", precoCompra = 5.0, precoVenda = 10.0, quantidade = 50, fabricacao = "01/01/2021", validade = "01/01/2022"}, 
+  Produto {codigo = 4, disponivel = True, nome = "Pepsi", categoria = "Bebida", precoCompra = 5.0, precoVenda = 10.0, quantidade = 50, fabricacao = "01/01/2021", validade = "01/01/2022"},
+  Produto {codigo = 5, disponivel = True, nome = "Sabão em pó", categoria = "Limpeza", precoCompra = 5.0, precoVenda = 10.0, quantidade = 50, fabricacao = "01/01/2021", validade = "01/01/2022"},
+  Produto {codigo = 6, disponivel = True, nome = "Sabão em barra", categoria = "Limpeza", precoCompra = 5.0, precoVenda = 10.0, quantidade = 50, fabricacao = "01/01/2021", validade = "01/01/2022"},
+  Produto {codigo = 7, disponivel = True, nome = "Detergente", categoria = "Limpeza", precoCompra = 5.0, precoVenda = 10.0, quantidade = 50, fabricacao = "01/01/2021", validade = "01/01/2022"},
+  Produto {codigo = 8, disponivel = True, nome = "Desinfetante", categoria = "Limpeza", precoCompra = 5.0, precoVenda = 10.0, quantidade = 50, fabricacao = "01/01/2021", validade = "01/01/2022"}]
+
+-- Crie uma lista de clientes (um repositório)
+criarRepositorioClientesExemplo :: [Cliente]
+criarRepositorioClientesExemplo = [
+    Cliente {nomeCompleto = "João da Silva", sexo = 'M', dataNascimento = "01/01/1996", cpf = "123.456.789-00", email = "joao.silva@gmail.com", telefone = "(11) 99999-9999", nomeUsuario = "joao.silva", senha = "123456"},
+    Cliente {nomeCompleto = "Maria da Silva", sexo = 'F', dataNascimento = "07/07/1990", cpf = "123.456.789-00", email = "maria.silva20@gmail.com", telefone = "(81) 7676-7899", nomeUsuario = "maria.silva", senha = "987654"},
+    Cliente {nomeCompleto = "José Gomes", sexo = 'M', dataNascimento = "05/01/2000", cpf = "123.456.789-00", email = "jose.gomes@hotmail.com", telefone = "(21) 1234-5678", nomeUsuario = "jose.gomes", senha = "123asd"},
+    Cliente {nomeCompleto = "Ana Maria", sexo = 'F', dataNascimento = "01/01/1996", cpf = "123.456.789-00", email = "ana@outlook.com", telefone = "(11) 99999-9999", nomeUsuario = "ana.maria", senha = "123456"}]
