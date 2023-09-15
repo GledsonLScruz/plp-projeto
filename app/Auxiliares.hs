@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-missing-fields #-}
 module Auxiliares where
 
 import Produto
@@ -35,6 +36,64 @@ lerProduto idSistema = do
       , quantidade = quantidadeProduto
       , fabricacao = dataFabricacao
       , validade = dataValidade
+      }
+
+-- Função auxiliar para ler um novo cliente do usuário
+lerCliente :: IO Cliente
+lerCliente = do
+  putStrLn "Digite o nome completo do cliente:"
+  nomeCompleto <- getLine
+  putStrLn "Digite o sexo do cliente (M/F):"
+  sexoStr <- getLine
+  let sexo = head sexoStr
+  putStrLn "Digite a data de nascimento do cliente:"
+  dataNascimento <- getLine
+  putStrLn "Digite o CPF do cliente:"
+  cpf <- getLine
+  putStrLn "Digite o e-mail do cliente:"
+  email <- getLine
+  putStrLn "Digite o telefone do cliente:"
+  telefone <- getLine
+  putStrLn "Digite o nome de usuário do cliente:"
+  nomeUsuario <- getLine
+  putStrLn "Digite a senha do cliente:"
+  senha <- getLine
+  return
+    Cliente
+      { nomeCompleto = nomeCompleto
+      , sexo = sexo
+      , dataNascimento = dataNascimento
+      , cpf = cpf
+      , email = email
+      , telefone = telefone
+      , nomeUsuario = nomeUsuario
+      , senha = senha
+      }
+
+-- Função auxiliar para ler um novo cliente do usuário
+lerAtualizarCadastro :: IO Cliente
+lerAtualizarCadastro = do
+  putStrLn "Digite o sexo do cliente (M/F):"
+  sexoStr <- getLine
+  let sexo = head sexoStr
+  putStrLn "Digite a data de nascimento do cliente:"
+  dataNascimento <- getLine
+  putStrLn "Digite o e-mail do cliente:"
+  email <- getLine
+  putStrLn "Digite o telefone do cliente:"
+  telefone <- getLine
+  putStrLn "Digite o nome de usuário do cliente:"
+  nomeUsuario <- getLine
+  putStrLn "Digite a senha do cliente:"
+  senha <- getLine
+  return
+    Cliente
+      { sexo = sexo
+      , dataNascimento = dataNascimento
+      , email = email
+      , telefone = telefone
+      , nomeUsuario = nomeUsuario
+      , senha = senha
       }
 
 -- Crie uma lista de produtos (um repositório)
