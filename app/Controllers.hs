@@ -5,6 +5,7 @@ import Cliente
 import ProdutoService
 import ClienteService
 import Auxiliares
+import Tabela
 
 -- Controller inicial do sistema
 initialController :: [Produto] -> [Cliente] -> Int -> IO ()
@@ -35,7 +36,8 @@ initialController produtos clientes idProduto = do
       mapM_ (putStrLn . produtoToString) produtos
       initialController produtos clientes idProduto 
 
-    "05" -> putStrLn "Saindo do sistema."
+    "05" -> do
+      putStrLn "Saindo do sistema."
 
     _ -> do
       putStrLn "Opção inválida. Tente novamente."
@@ -65,11 +67,11 @@ clienteController produtos clientes idProduto = do
       clienteController produtos clientes idProduto 
 
     "02" -> do
-        putStrLn "Digite a categoria a ser buscada:"
-        categoria <- getLine
-        let produtosEncontrados = buscarProdutosPorCategoriaService produtos categoria
-        mapM_ (putStrLn . produtoToString) produtosEncontrados
-        clienteController produtos clientes idProduto 
+      putStrLn "Digite a categoria a ser buscada:"
+      categoria <- getLine
+      let produtosEncontrados = buscarProdutosPorCategoriaService produtos categoria
+      mapM_ (putStrLn . produtoToString) produtosEncontrados
+      clienteController produtos clientes idProduto 
 
     "03" -> do
       putStrLn "Falta implementar Adicionar ao Carrinho"
@@ -144,6 +146,7 @@ admController produtos clientes idProduto = do
       novoProduto <- lerProduto idProduto
       let produtosAtualizados = adicionarProdutoService produtos novoProduto
       putStrLn "Produto adicionado com sucesso."
+      salvarProdutos produtosAtualizados
       admController produtosAtualizados clientes (idProduto + 1) 
 
     "03" -> do
@@ -153,6 +156,7 @@ admController produtos clientes idProduto = do
       novoProduto <- lerProduto codigoProduto
       let produtosAtualizados = atualizarProdutoService produtos codigoProduto novoProduto
       putStrLn "Produto atualizado com sucesso."
+      salvarProdutos produtosAtualizados
       admController produtosAtualizados clientes idProduto 
 
     "04" -> do
@@ -181,6 +185,7 @@ admController produtos clientes idProduto = do
       let codigoProduto = read codigoProdutoStr :: Int
       let produtosAtualizados = removerProdutoService produtos codigoProduto
       putStrLn "Produto removido com sucesso."
+      salvarProdutos produtosAtualizados
       admController produtosAtualizados clientes idProduto 
 
     "07" -> do
@@ -201,6 +206,7 @@ admController produtos clientes idProduto = do
         novoCliente <- lerCliente
         let clientesAtualizados = atualizarClienteService clientes cpfCliente novoCliente
         putStrLn "Cliente atualizado com sucesso."
+        salvarClientes clientesAtualizados
         admController produtos clientes idProduto 
     
     "09" -> do
@@ -208,6 +214,7 @@ admController produtos clientes idProduto = do
         cpfCliente <- getLine
         let clientesAtualizados = removerClienteService clientes cpfCliente
         putStrLn "Cliente removido com sucesso."
+        salvarClientes clientesAtualizados
         admController produtos clientes idProduto 
 
     "10" -> do
