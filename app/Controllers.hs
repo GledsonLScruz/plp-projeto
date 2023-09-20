@@ -2,10 +2,12 @@ module Controllers where
 
 import Produto
 import Cliente
+import ClienteRepository
 import ProdutoService
 import ClienteService
 import Auxiliares
 import Tabela
+import Data.Char
 
 -- Controller inicial do sistema
 initialController :: [Produto] -> [Cliente] -> Int -> IO ()
@@ -21,34 +23,71 @@ initialController produtos clientes idProduto = do
 
   case opcao of
     "01" -> do
-      putStrLn "Falta implementar o Login Cliente"
-      clienteController produtos clientes idProduto 
+		loginController produtos clientes idProduto
 
     "02" -> do
-      putStrLn "Falta implementar o Registrar Cliente"
-      initialController produtos clientes idProduto 
+		registrerController produtos clientes idProduto
 
     "03" -> do
-      putStrLn "Falta implementar o Login Administrador"
-      admController produtos clientes idProduto 
+		loginADMController produtos clientes idProduto
 
     "04" -> do
       mapM_ (putStrLn . produtoToString) produtos
-      initialController produtos clientes idProduto 
+      initialController produtos clientes idProduto
 
     "05" -> do
       putStrLn "Saindo do sistema."
 
     _ -> do
       putStrLn "Opção inválida. Tente novamente."
-      initialController produtos clientes idProduto 
+      initialController produtos clientes idProduto
+
+-- LoginController guarda os comandos de Login
+loginController :: [Produto] -> [Cliente] -> Int -> IO ()
+loginController produtos clientes idProduto = do
+	putStrLn $ "Faça Login como Cliente:\n Email:\n"
+	email <- getLine
+	putStrLn $ "Senha:\n"
+	senha <- getLine
+	let usuario = buscarClientePorLogin clientes email senha
+	case usuario of
+		Just l -> do
+			clienteController produtos clientes idProduto l
+		Nothing -> do
+			putStrLn $ "\nLogin Inválido tente novamente\n"
+			loginController produtos clientes idProduto
+
+-- LoginController guarda os comandos de Login
+loginADMController :: [Produto] -> [Cliente] -> Int -> IO ()
+loginADMController produtos clientes idProduto = do
+	putStrLn $ "Faça Login como ADM:\n nome de usuário:\n"
+	user <- getLine
+	putStrLn $ "Senha:\n"
+	senha <- getLine
+	if user == "admin" && senha == "password"
+		then do
+			putStrLn $ "Login como ADM feito com sucesso!"
+			admController produtos clientes idProduto
+		else do
+			putStrLn $ "\nLogin Inválido tente novamente\n"
+			loginADMController produtos clientes idProduto
+
+-- LoginController guarda os comandos de Login
+registrerController :: [Produto] -> [Cliente] -> Int -> IO ()
+registrerController produtos clientes idProduto = do
+	putStrLn $ "Cadastre um novo Cliente:\n"
+	novoCliente <- lerCliente
+	let clientes = adicionarClienteService clientes novoCliente
+	putStrLn $ "Cliente Cadastrado"
+	clienteController produtos clientes idProduto novoCliente
+
 
 -- Controller que guarda comandos do cliente
-clienteController :: [Produto] -> [Cliente] -> Int -> IO ()
-clienteController produtos clientes idProduto = do
+clienteController :: [Produto] -> [Cliente] -> Int -> Cliente -> IO ()
+clienteController produtos clientes idProduto clienteLogado = do
   putStrLn $ "Opções de cliente:\n" ++
            "01. Visualizar Produtos\n" ++
-           "02. Visualizar Produtos por Categoria\n" ++ 
+           "02. Visualizar Produtos por Categoria\n" ++
            "03. Adicionar ao Carrinho\n" ++
            "04. Visualizar Carrinho\n" ++
            "05. Finalizar Compra\n" ++
@@ -61,37 +100,37 @@ clienteController produtos clientes idProduto = do
 
   opcao <- getLine
 
-  case opcao of 
+  case opcao of
     "01" -> do
       mapM_ (putStrLn . produtoToString) produtos
-      clienteController produtos clientes idProduto 
+      clienteController produtos clientes idProduto clienteLogado
 
     "02" -> do
-      putStrLn "Digite a categoria a ser buscada:"
-      categoria <- getLine
-      let produtosEncontrados = buscarProdutosPorCategoriaService produtos categoria
-      mapM_ (putStrLn . produtoToString) produtosEncontrados
-      clienteController produtos clientes idProduto 
+        putStrLn "Digite a categoria a ser buscada:"
+        categoria <- getLine
+        let produtosEncontrados = buscarProdutosPorCategoriaService produtos categoria
+        mapM_ (putStrLn . produtoToString) produtosEncontrados
+        clienteController produtos clientes idProduto clienteLogado
 
     "03" -> do
       putStrLn "Falta implementar Adicionar ao Carrinho"
-      clienteController produtos clientes idProduto 
+      clienteController produtos clientes idProduto clienteLogado
 
     "04" -> do
       putStrLn "Falta implementar Visualizar Carrinho"
-      clienteController produtos clientes idProduto 
+      clienteController produtos clientes idProduto clienteLogado
 
     "05" -> do
       putStrLn "Falta implementar Finalizar Compra"
-      admController produtos clientes idProduto 
+      admController produtos clientes idProduto
 
     "06" -> do
       putStrLn "Falta implementar Avaliar Produto"
-      clienteController produtos clientes idProduto 
+      clienteController produtos clientes idProduto clienteLogado
 
     "07" -> do
       putStrLn "Falta implementar Histórico de Compra"
-      clienteController produtos clientes idProduto 
+      clienteController produtos clientes idProduto clienteLogado
 
     "08" -> do
       putStrLn "Digite o seu cpf para atualizar o cadastro:"
@@ -99,23 +138,23 @@ clienteController produtos clientes idProduto = do
       novoCliente <- lerAtualizarCadastro
       let clientesAtualizados = atualizarCadastroClienteService clientes cpf novoCliente
       putStrLn "Cadastro atualizado com sucesso."
-      clienteController produtos clientesAtualizados idProduto 
-      
+      clienteController produtos clientesAtualizados idProduto clienteLogado
+
     "09" -> do
         putStrLn "Digite o seu cpf para deletar a conta:"
         cpf <- getLine
         let clientesAtualizados = removerClienteService clientes cpf
         putStrLn "Conta deletada com sucesso."
-        initialController produtos clientesAtualizados idProduto 
+        initialController produtos clientesAtualizados idProduto
 
     "10" -> do
-      initialController produtos clientes idProduto 
-      
+      initialController produtos clientes idProduto
+
     "11" -> putStrLn "Saindo do sistema."
 
     _ -> do
       putStrLn "Opção inválida. Tente novamente."
-      clienteController produtos clientes idProduto 
+      clienteController produtos clientes idProduto clienteLogado
 
 
 -- Controller que aguarda comandos do administrador
@@ -140,14 +179,14 @@ admController produtos clientes idProduto = do
   case opcao of
     "01" -> do
       mapM_ (putStrLn . produtoToString) produtos
-      admController produtos clientes idProduto 
+      admController produtos clientes idProduto
 
     "02" -> do
       novoProduto <- lerProduto idProduto
       let produtosAtualizados = adicionarProdutoService produtos novoProduto
       putStrLn "Produto adicionado com sucesso."
       salvarProdutos produtosAtualizados
-      admController produtosAtualizados clientes (idProduto + 1) 
+      admController produtosAtualizados clientes (idProduto + 1)
 
     "03" -> do
       putStrLn "Digite o código do produto a ser atualizado:"
@@ -157,7 +196,7 @@ admController produtos clientes idProduto = do
       let produtosAtualizados = atualizarProdutoService produtos codigoProduto novoProduto
       putStrLn "Produto atualizado com sucesso."
       salvarProdutos produtosAtualizados
-      admController produtosAtualizados clientes idProduto 
+      admController produtosAtualizados clientes idProduto
 
     "04" -> do
       putStrLn "Digite o código do produto a ser visualizado:"
@@ -167,17 +206,17 @@ admController produtos clientes idProduto = do
       case produto of
         Just p -> do
           putStrLn $ produtoToString p
-          admController produtos clientes idProduto 
+          admController produtos clientes idProduto
         Nothing -> do
           putStrLn "Produto não encontrado."
-          admController produtos clientes idProduto 
+          admController produtos clientes idProduto
 
     "05" -> do
       putStrLn "Digite a categoria a ser buscada:"
       categoria <- getLine
       let produtosEncontrados = buscarProdutosPorCategoriaService produtos categoria
       mapM_ (putStrLn . produtoToString) produtosEncontrados
-      admController produtos clientes idProduto 
+      admController produtos clientes idProduto
 
     "06" -> do
       putStrLn "Digite o código do produto a ser removido:"
@@ -186,7 +225,7 @@ admController produtos clientes idProduto = do
       let produtosAtualizados = removerProdutoService produtos codigoProduto
       putStrLn "Produto removido com sucesso."
       salvarProdutos produtosAtualizados
-      admController produtosAtualizados clientes idProduto 
+      admController produtosAtualizados clientes idProduto
 
     "07" -> do
         putStrLn "Digite o CPF do cliente a ser buscado:"
@@ -195,10 +234,10 @@ admController produtos clientes idProduto = do
         case cliente of
             Just c -> do
                 putStrLn $ clienteToString c
-                admController produtos clientes idProduto 
+                admController produtos clientes idProduto
             Nothing -> do
                 putStrLn "Cliente não encontrado."
-                admController produtos clientes idProduto 
+                admController produtos clientes idProduto
 
     "08" -> do
         putStrLn "Digite o CPF do cliente a ser atualizado:"
@@ -207,26 +246,25 @@ admController produtos clientes idProduto = do
         let clientesAtualizados = atualizarClienteService clientes cpfCliente novoCliente
         putStrLn "Cliente atualizado com sucesso."
         salvarClientes clientesAtualizados
-        admController produtos clientes idProduto 
-    
+        admController produtos clientes idProduto
+
     "09" -> do
         putStrLn "Digite o CPF do cliente a ser removido:"
         cpfCliente <- getLine
         let clientesAtualizados = removerClienteService clientes cpfCliente
         putStrLn "Cliente removido com sucesso."
         salvarClientes clientesAtualizados
-        admController produtos clientes idProduto 
+        admController produtos clientes idProduto
 
     "10" -> do
       putStrLn "Falta implementar o Dashboard"
-      admController produtos clientes idProduto 
+      admController produtos clientes idProduto
 
     "11" -> do
-      initialController produtos clientes idProduto 
+      initialController produtos clientes idProduto
 
     "12" -> putStrLn "Saindo do sistema."
 
     _ -> do
       putStrLn "Opção inválida. Tente novamente."
-      admController produtos clientes idProduto 
-
+      admController produtos clientes idProduto

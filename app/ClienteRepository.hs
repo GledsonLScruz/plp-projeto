@@ -13,6 +13,14 @@ buscarClientePorCpf (cliente:clientes) cpf
   | cpf == getCpf cliente = Just cliente
   | otherwise = buscarClientePorCpf clientes cpf
 
+-- Função para buscar um cliente por cpf em uma lista de clientes
+buscarClientePorLogin :: [Cliente] -> String -> String -> Maybe Cliente
+buscarClientePorLogin [] _ _ = Nothing
+buscarClientePorLogin (cliente:clientes) email senha
+  | email == getEmail cliente && senha == getSenha cliente = Just cliente
+  | otherwise = buscarClientePorLogin clientes email senha
+
+
 -- Função que remove um cliente do repositório
 removerCliente :: [Cliente] -> String -> [Cliente]
 removerCliente repositorio cpfCliente =
