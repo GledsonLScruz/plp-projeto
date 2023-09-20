@@ -129,13 +129,13 @@ generateRandom12DigitNumber = do
 -- Function to calculate the EAN-13 checksum digit
 calculateEAN13Checksum :: [Int] -> Int
 calculateEAN13Checksum digits =
-    let odds = sum (map snd (filter (\(i, _) -> i `mod` 2 /= 0) (zip [1..] digits))) * 3
-        evens = sum (map snd (filter (\(i, _) -> i `mod` 2 == 0) (zip [1..] digits)))
+    let odds = sum (map snd (filter (\(i, _) -> odd i) (zip [1..] digits))) * 3
+        evens = sum (map snd (filter (\(i, _) -> even i) (zip [1..] digits)))
     in (10 - ((odds + evens) `mod` 10)) `mod` 10
 
 -- Function to generate the complete EAN-13 code
 generateEAN13 :: String -> String
 generateEAN13 input =
     let digits = read input
-	checksum = calculateEAN13Checksum digits
-	in input ++ show checksum
+        checksum = calculateEAN13Checksum digits
+        in input ++ show checksum

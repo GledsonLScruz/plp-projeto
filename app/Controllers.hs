@@ -12,12 +12,16 @@ import Data.Char
 -- Controller inicial do sistema
 initialController :: [Produto] -> [Cliente] -> Int -> IO ()
 initialController produtos clientes idProduto = do
-  putStrLn $ "Opções de visitante:\n" ++
-           "01. Entrar como Cliente\n" ++
-           "02. Registrar como Cliente\n" ++
-           "03. Entrar como Administrador\n" ++
-           "04. Visualizar Produtos\n" ++
-           "05. Sair do Sistema\n"
+  putStrLn $ 
+    "=====================================\n" ++
+    "         Menu de Visitante          \n" ++
+    "=====================================\n" ++
+    "Selecione uma das opções:\n\n" ++
+    "  01. Entrar como Cliente\n" ++
+    "  02. Registrar como Cliente\n" ++
+    "  03. Entrar como Administrador\n" ++
+    "  04. Visualizar Produtos\n" ++
+    "  05. Sair do Sistema\n"
 
   opcao <- getLine
 
@@ -42,58 +46,63 @@ initialController produtos clientes idProduto = do
 -- LoginController guarda os comandos de Login
 loginController :: [Produto] -> [Cliente] -> Int -> IO ()
 loginController produtos clientes idProduto = do
-	putStrLn $ "Faça Login como Cliente:\n" ++ "Email:\n"
-	email <- getLine
-	putStrLn $ "Senha:\n"
-	senha <- getLine
-	let usuario = buscarClientePorLogin clientes email senha
-	case usuario of
-		Just l -> do
-			clienteController produtos clientes idProduto l
-		Nothing -> do
-			putStrLn $ "\nLogin Inválido tente novamente\n"
-			initialController produtos clientes idProduto
+  putStrLn $ "Faça Login como Cliente:\nEmail:\n"
+  email <- getLine
+  putStrLn $ "Senha:\n"
+  senha <- getLine
+  let usuario = buscarClientePorLogin clientes email senha
+  case usuario of
+    Just l -> do
+      clienteController produtos clientes idProduto l
+    Nothing -> do
+      putStrLn $ "\nLogin Inválido tente novamente\n"
+      initialController produtos clientes idProduto
 
 -- LoginController guarda os comandos de Login
 loginADMController :: [Produto] -> [Cliente] -> Int -> IO ()
 loginADMController produtos clientes idProduto = do
-	putStrLn $ "Faça Login como ADM:\n nome de usuário:\n"
-	user <- getLine
-	putStrLn $ "Senha:\n"
-	senha <- getLine
-	if user == "admin" && senha == "password"
-		then do
-			putStrLn $ "Login como ADM feito com sucesso!"
-			admController produtos clientes idProduto
-		else do
-			putStrLn $ "\nLogin Inválido tente novamente\n"
-			loginADMController produtos clientes idProduto
+  putStrLn $ "Faça Login como ADM:\n nome de usuário:\n"
+  user <- getLine
+  putStrLn $ "Senha:\n"
+  senha <- getLine
+  if user == "admin" && senha == "password"
+    then do
+      putStrLn $ "Login como ADM feito com sucesso!"
+      admController produtos clientes idProduto
+    else do
+      putStrLn $ "\nLogin Inválido tente novamente\n"
+      loginADMController produtos clientes idProduto
 
 -- RegisterController guarda os comandos de Register
 registrerController :: [Produto] -> [Cliente] -> Int -> IO ()
 registrerController produtos clientes idProduto = do
-	putStrLn $ "Cadastre um novo Cliente:\n"
-	novoCliente <- lerCliente
-	let clientes = adicionarClienteService clientes novoCliente
-	putStrLn $ "Cliente Cadastrado"
-	clienteController produtos clientes idProduto novoCliente
+  putStrLn $ "Cadastre um novo Cliente:\n"
+  novoCliente <- lerCliente
+  let clientes = adicionarClienteService clientes novoCliente
+  putStrLn $ "Cliente Cadastrado"
+  clienteController produtos clientes idProduto novoCliente
 
 
 -- Controller que guarda comandos do cliente
 clienteController :: [Produto] -> [Cliente] -> Int -> Cliente -> IO ()
 clienteController produtos clientes idProduto clienteLogado = do
-  putStrLn $ "Opções de cliente:\n" ++
-           "01. Visualizar Produtos\n" ++
-           "02. Visualizar Produtos por Categoria\n" ++
-           "03. Adicionar ao Carrinho\n" ++
-           "04. Visualizar Carrinho\n" ++
-           "05. Finalizar Compra\n" ++
-           "06. Avaliar Produto\n" ++
-           "07. Histórico de Compra\n" ++
-           "08. Atualizar Meu Cadastro\n" ++
-           "09. Deletar Minha Conta\n" ++
-           "10. Sair do Modo Cliente\n" ++
-           "11. Sair do Sistema\n"
+  putStrLn $ 
+    "=====================================\n" ++
+    "        Menu de Cliente             \n" ++
+    "=====================================\n" ++
+    "Selecione uma das opções:\n\n" ++
+    "  01. Visualizar Produtos\n" ++
+    "  02. Visualizar Produtos por Categoria\n" ++
+    "  03. Adicionar ao Carrinho\n" ++
+    "  04. Visualizar Carrinho\n" ++
+    "  05. Finalizar Compra\n" ++
+    "  06. Avaliar Produto\n" ++
+    "  07. Histórico de Compra\n" ++
+    "  08. Atualizar Meu Cadastro\n" ++
+    "  09. Deletar Minha Conta\n" ++
+    "  10. Sair do Modo Cliente\n" ++
+    "  11. Sair do Sistema\n"
+
 
   opcao <- getLine
 
@@ -157,19 +166,24 @@ clienteController produtos clientes idProduto clienteLogado = do
 -- Controller que aguarda comandos do administrador
 admController :: [Produto] -> [Cliente] -> Int -> IO ()
 admController produtos clientes idProduto = do
-  putStrLn $ "Opções de administrador:\n" ++
-           "01. Visualizar Produtos\n" ++
-           "02. Adicionar Novo Produto\n" ++
-           "03. Atualizar Produto por Completo\n" ++
-           "04. Visualizar Produto por Codigo\n" ++
-           "05. Visualizar Produtos por Categoria\n" ++
-           "06. Remover Produto por Codigo\n" ++
-           "07. Ler Cliente por CPF\n" ++
-           "08. Atualizar Cliente Completo\n" ++
-           "09. Deletar Cliente por CPF\n" ++
-           "10. Visualizar Dashboard\n" ++
-           "11. Sair do Modo Administrador\n" ++
-           "12. Sair do Sistema\n"
+  putStrLn $
+    "=====================================\n" ++
+    "     Menu de Administrador           \n" ++
+    "=====================================\n" ++
+    "Selecione uma das opções:\n\n" ++
+    "  01. Visualizar Produtos\n" ++
+    "  02. Adicionar Novo Produto\n" ++
+    "  03. Atualizar Produto por Completo\n" ++
+    "  04. Visualizar Produto por Código\n" ++
+    "  05. Visualizar Produtos por Categoria\n" ++
+    "  06. Remover Produto por Código\n" ++
+    "  07. Ler Cliente por CPF\n" ++
+    "  08. Atualizar Cliente Completo\n" ++
+    "  09. Deletar Cliente por CPF\n" ++
+    "  10. Visualizar Dashboard\n" ++
+    "  11. Sair do Modo Administrador\n" ++
+    "  12. Sair do Sistema\n"
+
 
   opcao <- getLine
 
