@@ -37,10 +37,10 @@ executable plp-projeto
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
-    build-depends:    base ^>=4.16.4.0,
+    build-depends:    base >= 4.18.0.0, 
                       bytestring >= 0.11 && < 0.12,
                       cassava >= 0.5 && < 0.6,
-                      text >= 1.2 && < 1.3,
+                      text >= 2.0.2,
                       vector >= 0.13 && < 0.14
 
 
