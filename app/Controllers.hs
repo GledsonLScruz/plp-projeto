@@ -22,14 +22,11 @@ initialController produtos clientes idProduto = do
   opcao <- getLine
 
   case opcao of
-    "01" -> do
-		loginController produtos clientes idProduto
+    "01" -> loginController produtos clientes idProduto
 
-    "02" -> do
-		registrerController produtos clientes idProduto
+    "02" -> registrerController produtos clientes idProduto
 
-    "03" -> do
-		loginADMController produtos clientes idProduto
+    "03" -> loginADMController produtos clientes idProduto
 
     "04" -> do
       mapM_ (putStrLn . produtoToString) produtos
@@ -45,7 +42,7 @@ initialController produtos clientes idProduto = do
 -- LoginController guarda os comandos de Login
 loginController :: [Produto] -> [Cliente] -> Int -> IO ()
 loginController produtos clientes idProduto = do
-	putStrLn $ "Faça Login como Cliente:\n Email:\n"
+	putStrLn $ "Faça Login como Cliente:\n" ++ "Email:\n"
 	email <- getLine
 	putStrLn $ "Senha:\n"
 	senha <- getLine
@@ -55,7 +52,7 @@ loginController produtos clientes idProduto = do
 			clienteController produtos clientes idProduto l
 		Nothing -> do
 			putStrLn $ "\nLogin Inválido tente novamente\n"
-			loginController produtos clientes idProduto
+			initialController produtos clientes idProduto
 
 -- LoginController guarda os comandos de Login
 loginADMController :: [Produto] -> [Cliente] -> Int -> IO ()
@@ -72,7 +69,7 @@ loginADMController produtos clientes idProduto = do
 			putStrLn $ "\nLogin Inválido tente novamente\n"
 			loginADMController produtos clientes idProduto
 
--- LoginController guarda os comandos de Login
+-- RegisterController guarda os comandos de Register
 registrerController :: [Produto] -> [Cliente] -> Int -> IO ()
 registrerController produtos clientes idProduto = do
 	putStrLn $ "Cadastre um novo Cliente:\n"
