@@ -6,6 +6,7 @@ import ProdutoService
 import ClienteService
 import Auxiliares
 import Tabela
+import Dashboards
 
 -- Controller inicial do sistema
 initialController :: [Produto] -> [Cliente] -> Int -> IO ()
@@ -218,7 +219,7 @@ admController produtos clientes idProduto = do
         admController produtos clientes idProduto 
 
     "10" -> do
-      putStrLn "Falta implementar o Dashboard"
+      exibirDashboards produtos clientes idProduto
       admController produtos clientes idProduto 
 
     "11" -> do
@@ -230,3 +231,50 @@ admController produtos clientes idProduto = do
       putStrLn "Opção inválida. Tente novamente."
       admController produtos clientes idProduto 
 
+-- Função para exibir os dashboards
+exibirDashboards :: [Produto] -> [Cliente] -> Int -> IO ()
+exibirDashboards produtos clientes idProduto = do
+  putStrLn $ "Escolha um dashboard para exibir:\n" ++
+          "1. Total de Clientes\n" ++
+          "2. Clientes Mais Ativos\n" ++
+          "3. Média de Compras por Cliente\n" ++
+          "4. Voltar\n"
+
+  opcao <- getLine
+
+  case opcao of
+    "1" -> do
+      putStrLn "Dashboard: Total de Clientes"
+      putStrLn "-------------"
+      -- Exiba o dashboard de Total de Clientes
+      let totalClientes = length clientes
+      putStrLn $ "Total de Clientes: " ++ show totalClientes
+      putStrLn "-------------"
+      exibirDashboards produtos clientes idProduto
+
+    "2" -> do
+      putStrLn "Dashboard: Clientes Mais Ativos"
+      putStrLn "-------------"
+      -- Exiba o dashboard de Clientes Mais Ativos
+      let clientesAtivos = clientesMaisAtivos clientes
+      putStrLn "Clientes Mais Ativos:"
+      mapM_ (\cliente -> putStrLn $ "  - " ++ nomeCompleto cliente ++ ": " ++ show (length (historicoCompras cliente)) ++ " compras") clientesAtivos
+      putStrLn "-------------"
+      exibirDashboards produtos clientes idProduto
+
+    "3" -> do
+      putStrLn "Dashboard: Média de Compras por Cliente"
+      putStrLn "-------------"
+      -- Exiba o dashboard de Média de Compras por Cliente
+      let mediaCompras = mediaComprasPorCliente clientes
+      putStrLn $ "Média de Compras por Cliente: " ++ show mediaCompras
+      putStrLn "-------------"
+      exibirDashboards produtos clientes idProduto
+
+    "4" -> do
+      putStrLn "Voltando ao menu do administrador."
+      admController produtos clientes idProduto
+
+    _ -> do
+      putStrLn "Opção inválida. Tente novamente."
+      exibirDashboards produtos clientes idProduto
