@@ -13,25 +13,25 @@ data Cliente = Cliente
 
 -- Funções de acesso para os atributos de Cliente
 getNomeCompleto :: Cliente -> String
-getNomeCompleto = nomeCompleto 
+getNomeCompleto = nomeCompleto
 
 getSexo :: Cliente -> Char
 getSexo = sexo
 
 getDataNascimento :: Cliente -> String
-getDataNascimento = dataNascimento 
+getDataNascimento = dataNascimento
 
 getCpf :: Cliente -> String
-getCpf = cpf 
+getCpf = cpf
 
 getEmail :: Cliente -> String
-getEmail = email 
+getEmail = email
 
 getTelefone :: Cliente -> String
-getTelefone = telefone 
+getTelefone = telefone
 
 getNomeUsuario :: Cliente -> String
-getNomeUsuario = nomeUsuario 
+getNomeUsuario = nomeUsuario
 
 getSenha :: Cliente -> String
 getSenha = senha

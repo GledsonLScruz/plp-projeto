@@ -10,7 +10,7 @@ import Cliente
 instance ToRecord Produto where
   toRecord p = record
     [ toField (Produto.codigo p)
-    , toField (boolToText (Produto.disponivel p)) -- Converte Bool para String
+    , toField (boolToString (Produto.disponivel p)) -- Converte Bool para String
     , toField (Produto.nome p)
     , toField (Produto.categoria p)
     , toField (Produto.precoCompra p)
@@ -99,9 +99,9 @@ lerClientesCSV filePath = do
     Right rows -> return $ V.toList rows
 
 -- Função auxiliar para converter Bool em String
-boolToText :: Bool -> String
-boolToText True = "True"
-boolToText False = "False"
+boolToString :: Bool -> String
+boolToString True = "True"
+boolToString False = "False"
 
 -- Função auxiliar para converter String em Bool
 stringToBool :: String -> Bool

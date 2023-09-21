@@ -9,8 +9,6 @@ import Tabela
 
 main :: IO ()
 main = do
-  putStrLn "Bem-vindo ao sistema de Supermercado Online!"
-
   produtos <- lerProdutosCSV "produtos.csv"
   clientes <- lerClientesCSV "clientes.csv"
   let idProduto = 9
