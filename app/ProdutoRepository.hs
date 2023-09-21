@@ -30,5 +30,3 @@ atualizarProduto (produto:produtos) codigoProduto novoProduto
   | codigo produto == codigoProduto = do
       novoProduto : produtos  
   | otherwise = produto : atualizarProduto produtos codigoProduto novoProduto
-
-

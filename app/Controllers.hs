@@ -220,7 +220,6 @@ admController produtos clientes idProduto = do
 
     "10" -> do
       exibirDashboards produtos clientes idProduto
-      admController produtos clientes idProduto 
 
     "11" -> do
       initialController produtos clientes idProduto 
@@ -238,22 +237,27 @@ exibirDashboards produtos clientes idProduto = do
           "1. Total de Clientes\n" ++
           "2. Clientes Mais Ativos\n" ++
           "3. Média de Compras por Cliente\n" ++
-          "4. Voltar\n"
+          "4. Quantidade de produtos em estoque \n" ++
+          "5. Produtos com estoque baixo \n" ++
+          "6. Produtos mais populares \n" ++
+          "7. Total de receita gerada por produto \n" ++
+          "8. Total de receita gerada por categoria \n" ++
+          "9. Voltar\n"
 
   opcao <- getLine
 
   case opcao of
     "1" -> do
-      putStrLn "Dashboard: Total de Clientes"
+      putStrLn "Dashboard: Total de Clientes:"
       putStrLn "-------------"
       -- Exiba o dashboard de Total de Clientes
       let totalClientes = length clientes
       putStrLn $ "Total de Clientes: " ++ show totalClientes
       putStrLn "-------------"
       exibirDashboards produtos clientes idProduto
-
+{-
     "2" -> do
-      putStrLn "Dashboard: Clientes Mais Ativos"
+      putStrLn "Dashboard: Clientes Mais Ativos:"
       putStrLn "-------------"
       -- Exiba o dashboard de Clientes Mais Ativos
       let clientesAtivos = clientesMaisAtivos clientes
@@ -263,15 +267,40 @@ exibirDashboards produtos clientes idProduto = do
       exibirDashboards produtos clientes idProduto
 
     "3" -> do
-      putStrLn "Dashboard: Média de Compras por Cliente"
+      putStrLn "Dashboard: Média de Compras por Cliente:"
       putStrLn "-------------"
       -- Exiba o dashboard de Média de Compras por Cliente
       let mediaCompras = mediaComprasPorCliente clientes
       putStrLn $ "Média de Compras por Cliente: " ++ show mediaCompras
       putStrLn "-------------"
       exibirDashboards produtos clientes idProduto
-
+-}
     "4" -> do
+      putStrLn "Dashboard: Quantidade de produtos em estoque:"
+      putStrLn "-------------"
+      -- Exiba o dashboard de Quantidade de Produtos em Estoque
+      let totalEstoque = quantidadeTotalEstoque produtos
+      putStrLn $ "Quantidade total de produtos em estoque: " ++ show totalEstoque
+      putStrLn "-------------"
+      exibirDashboards produtos clientes idProduto
+
+    "5" -> do
+      putStrLn "Dashboard: Produtos com estoque baixo:"
+      exibirDashboards produtos clientes idProduto
+
+    "6" -> do
+      putStrLn "Dashboard: Produtos mais populares:"
+      exibirDashboards produtos clientes idProduto
+    
+    "7" -> do
+      putStrLn "Dashboard: Total de receita gerada por produto:"
+      exibirDashboards produtos clientes idProduto
+
+    "8" -> do
+      putStrLn "Total de receita gerada por categoria:"
+      admController produtos clientes idProduto
+
+    "9" -> do
       putStrLn "Voltando ao menu do administrador."
       admController produtos clientes idProduto
 
