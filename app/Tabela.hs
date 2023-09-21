@@ -1,5 +1,6 @@
 module Tabela where
 
+import System.IO
 import Data.Csv
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.Vector as V
@@ -109,3 +110,18 @@ stringToBool :: String -> Bool
 stringToBool "True" = True
 stringToBool "False" = False
 stringToBool _ = False  
+
+-- Função para salvar o valor inteiro em um arquivo CSV
+salvarCodigo :: Int -> IO ()
+salvarCodigo valor = do
+  let csvData = encode [Only valor] 
+  BL.writeFile "codigo.csv" csvData
+
+lerCodigo :: String -> IO Int
+lerCodigo path = do
+  handle <- openFile path ReadMode
+  conteudo <- hGetContents handle
+  let meuID = read conteudo :: Int
+  hClose handle
+  return meuID
+ 

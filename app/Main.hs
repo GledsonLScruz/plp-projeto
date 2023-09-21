@@ -11,9 +11,9 @@ main :: IO ()
 main = do
   produtos <- lerProdutosCSV "produtos.csv"
   clientes <- lerClientesCSV "clientes.csv"
-  let idProduto = 9
+  codigoProduto <- lerCodigo "codigo.csv"
 
-  initialController produtos clientes idProduto
+  initialController produtos clientes codigoProduto
 
 
 
