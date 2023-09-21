@@ -11,9 +11,18 @@ getCarrinhoProdutos :: CarrinhoCompra -> [Produto]
 getCarrinhoProdutos carrinho = produtos carrinho
 
 -- Função para adicionar um produto ao carrinho de compras
-adicionarProduto :: CarrinhoCompra -> Produto -> CarrinhoCompra
-adicionarProduto carrinho produto = 
+adicionarProdutoCarrinho :: CarrinhoCompra -> Produto -> CarrinhoCompra
+adicionarProdutoCarrinho carrinho produto = 
     carrinho { produtos = produto : produtos carrinho }
+
+esvaziarCarrinho :: CarrinhoCompra -> CarrinhoCompra
+esvaziarCarrinho carrinho = carrinho { produtos = [] }
+
+-- Função para remover um produto do carrinho de compras com base no código
+removerProdutoCarrinho :: CarrinhoCompra -> Int -> CarrinhoCompra
+removerProdutoCarrinho carrinho codigoProduto =
+    carrinho { produtos = filter (\produto -> getCodigo produto /= codigoProduto) (produtos carrinho) }
+
 
 calcularTotal :: CarrinhoCompra -> Double
 calcularTotal carrinho = sumList (produtos carrinho)

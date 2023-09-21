@@ -2,6 +2,7 @@ module Controllers where
 
 import Produto
 import Cliente
+import ProdutoRepository
 import ClienteRepository
 import ProdutoService
 import ClienteService
@@ -131,7 +132,7 @@ clienteController produtos clientes idProduto clienteLogado carrinho = do
       case produto of
         Just p -> do
           putStrLn $ "O produto:\n" ++ produtoToString p ++ "\nFoi adicionado ao Carrinho!!\n"
-          let carrinhoAtualizado = adicionarProduto carrinho p
+          let carrinhoAtualizado = adicionarProdutoCarrinho carrinho p
           clienteController produtos clientes idProduto clienteLogado carrinhoAtualizado
         Nothing -> do
           putStrLn "Produto não encontrado."
@@ -144,7 +145,20 @@ clienteController produtos clientes idProduto clienteLogado carrinho = do
       clienteController produtos clientes idProduto clienteLogado carrinho
 
     "05" -> do
-      putStrLn "Falta implementar Finalizar Compra"
+      putStrLn ("O valor total da compra é: " ++ show (calcularTotal carrinho) ++ "\n")
+      putStrLn "insira o pagamento para finalizar a compra: "
+      pagamentoStr <- getLine
+      let pagamento = read pagamentoStr :: Double
+      if pagamento == calcularTotal carrinho
+        then do
+          let carrinhoVazio = novoCarrinhoVazio
+          let produtosCarrinho = getCarrinhoProdutos carrinho
+          let produtosAtualizado = removerUnidadesProduto produtos produtosCarrinho
+          putStrLn "Compra finalizada com sucesso!\nObrigado por comprar conosco!\n"
+          clienteController produtosAtualizado clientes idProduto clienteLogado carrinhoVazio
+        else do
+          putStrLn "Pagamento insuficiente!"
+
       clienteController produtos clientes idProduto clienteLogado carrinho
 
     "06" -> do
@@ -188,7 +202,7 @@ carrinhoController produtos clientes idProduto clienteLogado carrinho = do
   case produto of
     Just p -> do
       putStrLn $ "O produto:\n" ++ produtoToString p ++ "\nFoi adicionado ao Carrinho!!\n"
-      let carrinhoAtualizado = adicionarProduto carrinho p
+      let carrinhoAtualizado = adicionarProdutoCarrinho carrinho p
       clienteController produtos clientes idProduto clienteLogado carrinhoAtualizado
     Nothing -> do
       putStrLn "Produto não encontrado."
@@ -409,3 +423,4 @@ exibirDashboards produtos clientes idProduto = do
     _ -> do
       putStrLn "Opção inválida. Tente novamente."
       exibirDashboards produtos clientes idProduto
+      
