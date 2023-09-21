@@ -73,10 +73,8 @@ lerCliente = do
       , senha = senha
       }
 
-novoCarrinhoVazio :: IO Carrinho
-novoCarrinhoVazio = Carrinho{
-	produtos =  []
-	}
+novoCarrinhoVazio :: CarrinhoCompra
+novoCarrinhoVazio = CarrinhoCompra { produtos = [] }
 
 -- Função auxiliar para ler um novo cliente do usuário
 lerAtualizarCadastro :: IO Cliente

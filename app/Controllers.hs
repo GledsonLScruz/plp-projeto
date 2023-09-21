@@ -52,7 +52,7 @@ loginController produtos clientes idProduto = do
   email <- getLine
   putStrLn $ "Senha:\n"
   senha <- getLine
-  carrinhoVazio <- novoCarinhoVazio
+  let carrinhoVazio = novoCarrinhoVazio
   let usuario = buscarClientePorLogin clientes email senha
   case usuario of
     Just l -> do
@@ -85,13 +85,13 @@ registrerController produtos clientes idProduto = do
   let clientes = adicionarClienteService clientes novoCliente
   putStrLn $ "Cliente Cadastrado"
   salvarClientes clientes
-  carrinhoVazio <- novoCarinhoVazio
+  let carrinhoVazio = novoCarrinhoVazio
   clienteController produtos clientes idProduto novoCliente carrinhoVazio
 
 
 -- Controller que guarda comandos do cliente
 clienteController :: [Produto] -> [Cliente] -> Int -> Cliente -> CarrinhoCompra -> IO ()
-clienteController produtos clientes idProduto clienteLogado -> carrinho = do
+clienteController produtos clientes idProduto clienteLogado carrinho = do
   putStrLn $
     "=====================================\n" ++
     "        Menu de Cliente             \n" ++
@@ -124,12 +124,24 @@ clienteController produtos clientes idProduto clienteLogado -> carrinho = do
         clienteController produtos clientes idProduto clienteLogado carrinho
 
     "03" -> do
-      carrinhoController produtos clientes idProduto clienteLogado carrinho
+      putStrLn "Digite o codigo do produto que você deseja adicionar ao Carrinho:"
+      codigoProdutoStr <- getLine
+      let codigoProduto = read codigoProdutoStr :: Int
+      let produto = buscarProdutoPorCodigoService produtos codigoProduto
+      case produto of
+        Just p -> do
+          putStrLn $ "O produto:\n" ++ produtoToString p ++ "\nFoi adicionado ao Carrinho!!\n"
+          let carrinhoAtualizado = adicionarProduto carrinho p
+          clienteController produtos clientes idProduto clienteLogado carrinhoAtualizado
+        Nothing -> do
+          putStrLn "Produto não encontrado."
+          clienteController produtos clientes idProduto clienteLogado carrinho
 
     "04" -> do
-		putStrLn "Carrinho de Compras:"
-        mapM_ (putStrLn . printProduto) produtos carrinho
-		clienteController produtos clientes idProduto clienteLogado carrinho
+      putStrLn "Carrinho de Compras:"
+      let produtosCarrinho = getCarrinhoProdutos carrinho
+      mapM_ (putStrLn . produtoToString) produtosCarrinho
+      clienteController produtos clientes idProduto clienteLogado carrinho
 
     "05" -> do
       putStrLn "Falta implementar Finalizar Compra"
@@ -167,21 +179,21 @@ clienteController produtos clientes idProduto clienteLogado -> carrinho = do
       putStrLn "Opção inválida. Tente novamente."
       clienteController produtos clientes idProduto clienteLogado carrinho
 
-
-carrinhoController produtos clientes idProduto clienteLogado carrinho
 carrinhoController :: [Produto] -> [Cliente] -> Int -> Cliente -> CarrinhoCompra -> IO ()
-carrinhoController produtos clientes clienteLogado carrinho = do
-	putStrLn $ "Insira o codigo do produto que você deseja adicionar ao Carrinho: \n"
-	codigo <- readLn
-	produto <- buscarProdutoPorCodigo codigo
-	case produto of
-        Just p -> do
-          putStrLn $ "O produto:\n" ++ produtoToString p ++ "\nFoi Adicionado ao Carrinho!!\n"
-		  carrinho <- adicionarProduto p carrinho
-		  clienteController produtos clientes idProduto clienteLogado carrinho
-        Nothing -> do
-          putStrLn "Produto não encontrado."
-          clienteController produtos clientes idProduto clienteLogado carrinho
+carrinhoController produtos clientes idProduto clienteLogado carrinho = do
+  putStrLn "Insira o código do produto que você deseja adicionar ao Carrinho:"
+  codigoProdutoStr <- getLine
+  let codigoProduto = read codigoProdutoStr :: Int
+  let produto = buscarProdutoPorCodigoService produtos codigoProduto
+  case produto of
+    Just p -> do
+      putStrLn $ "O produto:\n" ++ produtoToString p ++ "\nFoi adicionado ao Carrinho!!\n"
+      let carrinhoAtualizado = adicionarProduto carrinho p
+      clienteController produtos clientes idProduto clienteLogado carrinhoAtualizado
+    Nothing -> do
+      putStrLn "Produto não encontrado."
+      clienteController produtos clientes idProduto clienteLogado carrinho
+
 
 -- Controller que aguarda comandos do administrador
 admController :: [Produto] -> [Cliente] -> Int -> IO ()

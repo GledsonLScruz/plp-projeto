@@ -1,27 +1,23 @@
 module CarrinhoService where
 
 import Produto
+
 -- Definindo o tipo de dados para carrinho de compras
 data CarrinhoCompra = CarrinhoCompra
   { produtos :: [Produto]
   } deriving (Show)
 
+getCarrinhoProdutos :: CarrinhoCompra -> [Produto]
+getCarrinhoProdutos carrinho = produtos carrinho
 
 -- Função para adicionar um produto ao carrinho de compras
 adicionarProduto :: CarrinhoCompra -> Produto -> CarrinhoCompra
-adicionarProduto carrinho produto = carrinho { produtos = produtos carrinho ++ [produto]}
+adicionarProduto carrinho produto = 
+    carrinho { produtos = produto : produtos carrinho }
 
-printProduto :: Produto -> String
-printProduto produto =
-	"Produto: " ++ nome produto ++ " ---------" ++ " Valor em R$" ++ show (precoCompra produto)
-
--- Função para calcular o total do carrinho de compras
 calcularTotal :: CarrinhoCompra -> Double
-calcularTotal carrinho = sumList carrinho
+calcularTotal carrinho = sumList (produtos carrinho)
 
-
-sumList :: CarrinhoCompra -> Double
-sumList carrinho = do
-	let produtos = produtos carrinho
-sumList produtos carrinho == [] = 0.0
+sumList :: [Produto] -> Double
+sumList [] = 0.0
 sumList (x:xs) = precoCompra x + sumList xs

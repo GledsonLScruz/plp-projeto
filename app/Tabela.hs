@@ -31,6 +31,7 @@ instance ToRecord Cliente where
     , toField (Cliente.telefone c)
     , toField (Cliente.nomeUsuario c)
     , toField (Cliente.senha c)
+
     ]
 
 -- Função para salvar uma lista de produtos em um arquivo CSV
