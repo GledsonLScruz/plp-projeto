@@ -36,7 +36,7 @@ initialController produtos clientes idProduto = do
     "03" -> loginADMController produtos clientes idProduto
 
     "04" -> do
-      mapM_ (putStrLn . produtoToString) produtos
+      mapM_ (putStrLn . produtoToStringDTO) produtos
       initialController produtos clientes idProduto
 
     "05" -> do
@@ -75,7 +75,7 @@ loginADMController produtos clientes idProduto = do
       admController produtos clientes idProduto
     else do
       putStrLn $ "\nLogin Inválido tente novamente\n"
-      loginADMController produtos clientes idProduto
+      initialController produtos clientes idProduto
 
 
 -- RegisterController guarda os comandos de Register
@@ -100,28 +100,29 @@ clienteController produtos clientes idProduto clienteLogado carrinho = do
     "  (01) Visualizar Produtos\n" ++
     "  (02) Visualizar Produtos por Categoria\n" ++
     "  (03) Adicionar ao Carrinho\n" ++
-    "  (04) Visualizar Carrinho\n" ++
-    "  (05) Finalizar Compra\n" ++
-    "  (06) Avaliar Produto\n" ++
-    "  (07) Histórico de Compra\n" ++
-    "  (08) Atualizar Meu Cadastro\n" ++
-    "  (09) Deletar Minha Conta\n" ++
-    "  (10) Sair do Modo Cliente\n" ++
-    "  (11) Sair do Sistema\n"
+    "  (04) Remover do Carrinho\n" ++
+    "  (05) Visualizar Carrinho\n" ++
+    "  (06) Finalizar Compra\n" ++
+    "  (07) Avaliar Produto\n" ++
+    "  (08) Histórico de Compra\n" ++
+    "  (09) Atualizar Meu Cadastro\n" ++
+    "  (10) Deletar Minha Conta\n" ++
+    "  (11) Sair do Modo Cliente\n" ++
+    "  (12) Sair do Sistema\n"
 
   putStrLn "Digite a opção desejada: "
   opcao <- getLine
 
   case opcao of
     "01" -> do
-      mapM_ (putStrLn . produtoToString) produtos
+      mapM_ (putStrLn . produtoToStringDTO) produtos
       clienteController produtos clientes idProduto clienteLogado carrinho
 
     "02" -> do
         putStrLn "Digite a categoria a ser buscada:"
         categoria <- getLine
         let produtosEncontrados = buscarProdutosPorCategoriaService produtos categoria
-        mapM_ (putStrLn . produtoToString) produtosEncontrados
+        mapM_ (putStrLn . produtoToStringDTO) produtosEncontrados
         clienteController produtos clientes idProduto clienteLogado carrinho
 
     "03" -> do
@@ -139,12 +140,26 @@ clienteController produtos clientes idProduto clienteLogado carrinho = do
           clienteController produtos clientes idProduto clienteLogado carrinho
 
     "04" -> do
-      putStrLn "Carrinho de Compras:"
-      let produtosCarrinho = getCarrinhoProdutos carrinho
-      mapM_ (putStrLn . produtoToString) produtosCarrinho
-      clienteController produtos clientes idProduto clienteLogado carrinho
+      putStrLn "Digite o codigo do produto que você deseja remover do Carrinho:"
+      codigoProdutoStr <- getLine
+      let codigoProduto = read codigoProdutoStr :: Int
+      let produto = buscarProdutoPorCodigoService produtos codigoProduto
+      case produto of
+        Just p -> do
+          putStrLn $ "O produto:\n" ++ produtoToString p ++ "\nFoi removido do Carrinho!!\n"
+          let carrinhoAtualizado = removerProdutoCarrinho carrinho codigoProduto
+          clienteController produtos clientes idProduto clienteLogado carrinhoAtualizado
+        Nothing -> do
+          putStrLn "Produto não encontrado."
+          clienteController produtos clientes idProduto clienteLogado carrinho
 
     "05" -> do
+      putStrLn "Carrinho de Compras:"
+      let produtosCarrinho = getCarrinhoProdutos carrinho
+      mapM_ (putStrLn . produtoToStringDTO) produtosCarrinho
+      clienteController produtos clientes idProduto clienteLogado carrinho
+
+    "06" -> do
       putStrLn ("O valor total da compra é: " ++ show (calcularTotal carrinho) ++ "\n")
       putStrLn "insira o pagamento para finalizar a compra: "
       pagamentoStr <- getLine
@@ -161,15 +176,15 @@ clienteController produtos clientes idProduto clienteLogado carrinho = do
 
       clienteController produtos clientes idProduto clienteLogado carrinho
 
-    "06" -> do
+    "07" -> do
       putStrLn "Falta implementar Avaliar Produto"
       clienteController produtos clientes idProduto clienteLogado carrinho
 
-    "07" -> do
+    "08" -> do
       putStrLn "Falta implementar Histórico de Compra"
       clienteController produtos clientes idProduto clienteLogado carrinho
 
-    "08" -> do
+    "09" -> do
       putStrLn "Digite o seu cpf para atualizar o cadastro:"
       cpf <- getLine
       novoCliente <- lerAtualizarCadastro
@@ -177,17 +192,17 @@ clienteController produtos clientes idProduto clienteLogado carrinho = do
       putStrLn "Cadastro atualizado com sucesso."
       clienteController produtos clientesAtualizados idProduto clienteLogado carrinho
 
-    "09" -> do
+    "10" -> do
         putStrLn "Digite o seu cpf para deletar a conta:"
         cpf <- getLine
         let clientesAtualizados = removerClienteService clientes cpf
         putStrLn "Conta deletada com sucesso."
         initialController produtos clientesAtualizados idProduto
 
-    "10" -> do
+    "11" -> do
       initialController produtos clientes idProduto
 
-    "11" -> putStrLn "Saindo do sistema."
+    "12" -> putStrLn "Saindo do sistema."
 
     _ -> do
       putStrLn "Opção inválida. Tente novamente."

@@ -90,3 +90,23 @@ produtoToString produto =
     "Validade:    | " ++ validade produto ++ "\n" ++
     "========================================"
 
+-- ToString sem o valor de compra
+produtoToStringDTO :: Produto -> String
+produtoToStringDTO produto =
+  "========================================\n" ++
+    "Nome:        | " ++ nome produto ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Código:      | " ++ show (codigo produto) ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Disponível:  | " ++ show (disponivel produto) ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Categoria:   | " ++ categoria produto ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Preço Venda: | R$" ++ show (precoVenda produto) ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Quantidade:  | " ++ show (quantidade produto) ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Fabricação:  | " ++ fabricacao produto ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Validade:    | " ++ validade produto ++ "\n" ++
+    "========================================"

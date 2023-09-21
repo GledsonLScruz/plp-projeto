@@ -10,13 +10,13 @@ data CarrinhoCompra = CarrinhoCompra
 getCarrinhoProdutos :: CarrinhoCompra -> [Produto]
 getCarrinhoProdutos carrinho = produtos carrinho
 
+
 -- Função para adicionar um produto ao carrinho de compras
 adicionarProdutoCarrinho :: CarrinhoCompra -> Produto -> CarrinhoCompra
-adicionarProdutoCarrinho carrinho produto = 
-    carrinho { produtos = produto : produtos carrinho }
-
-esvaziarCarrinho :: CarrinhoCompra -> CarrinhoCompra
-esvaziarCarrinho carrinho = carrinho { produtos = [] }
+adicionarProdutoCarrinho carrinho produto
+  | getDisponivel produto = carrinho { produtos = produto : produtos carrinho }
+  | otherwise = carrinho
+  
 
 -- Função para remover um produto do carrinho de compras com base no código
 removerProdutoCarrinho :: CarrinhoCompra -> Int -> CarrinhoCompra
