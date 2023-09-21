@@ -35,7 +35,8 @@ executable plp-projeto
                       ClienteService,
                       Tabela,
                       Dashboards,
-					  TaskCarrinho
+					  CarrinhoService,
+					  AvaliacaoProduto
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
