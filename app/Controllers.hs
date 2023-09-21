@@ -7,12 +7,13 @@ import ProdutoService
 import ClienteService
 import Auxiliares
 import Tabela
+import Dashboards
 import Data.Char
 
 -- Controller inicial do sistema
 initialController :: [Produto] -> [Cliente] -> Int -> IO ()
 initialController produtos clientes idProduto = do
-  putStrLn $ 
+  putStrLn $
     "=====================================\n" ++
     "         Menu de Visitante          \n" ++
     "=====================================\n\n" ++
@@ -87,7 +88,7 @@ registrerController produtos clientes idProduto = do
 -- Controller que guarda comandos do cliente
 clienteController :: [Produto] -> [Cliente] -> Int -> Cliente -> IO ()
 clienteController produtos clientes idProduto clienteLogado = do
-  putStrLn $ 
+  putStrLn $
     "=====================================\n" ++
     "        Menu de Cliente             \n" ++
     "=====================================\n\n" ++
@@ -267,8 +268,7 @@ admController produtos clientes idProduto = do
         admController produtos clientes idProduto
 
     "10" -> do
-      putStrLn "Falta implementar o Dashboard"
-      admController produtos clientes idProduto
+      exibirDashboards produtos clientes idProduto
 
     "11" -> do
       initialController produtos clientes idProduto
@@ -278,3 +278,81 @@ admController produtos clientes idProduto = do
     _ -> do
       putStrLn "Opção inválida. Tente novamente."
       admController produtos clientes idProduto
+
+-- Função para exibir os dashboards
+exibirDashboards :: [Produto] -> [Cliente] -> Int -> IO ()
+exibirDashboards produtos clientes idProduto = do
+  putStrLn $ "Escolha um dashboard para exibir:\n" ++
+          "1. Total de Clientes\n" ++
+          "2. Clientes Mais Ativos\n" ++
+          "3. Média de Compras por Cliente\n" ++
+          "4. Quantidade de produtos em estoque \n" ++
+          "5. Produtos com estoque baixo \n" ++
+          "6. Produtos mais populares \n" ++
+          "7. Total de receita gerada por produto \n" ++
+          "8. Total de receita gerada por categoria \n" ++
+          "9. Voltar\n"
+
+  opcao <- getLine
+
+  case opcao of
+    "1" -> do
+      putStrLn "Dashboard: Total de Clientes:"
+      putStrLn "-------------"
+      -- Exiba o dashboard de Total de Clientes
+      let totalClientes = length clientes
+      putStrLn $ "Total de Clientes: " ++ show totalClientes
+      putStrLn "-------------"
+      exibirDashboards produtos clientes idProduto
+{-
+    "2" -> do
+      putStrLn "Dashboard: Clientes Mais Ativos:"
+      putStrLn "-------------"
+      -- Exiba o dashboard de Clientes Mais Ativos
+      let clientesAtivos = clientesMaisAtivos clientes
+      putStrLn "Clientes Mais Ativos:"
+      mapM_ (\cliente -> putStrLn $ "  - " ++ nomeCompleto cliente ++ ": " ++ show (length (historicoCompras cliente)) ++ " compras") clientesAtivos
+      putStrLn "-------------"
+      exibirDashboards produtos clientes idProduto
+
+    "3" -> do
+      putStrLn "Dashboard: Média de Compras por Cliente:"
+      putStrLn "-------------"
+      -- Exiba o dashboard de Média de Compras por Cliente
+      let mediaCompras = mediaComprasPorCliente clientes
+      putStrLn $ "Média de Compras por Cliente: " ++ show mediaCompras
+      putStrLn "-------------"
+      exibirDashboards produtos clientes idProduto
+-}
+    "4" -> do
+      putStrLn "Dashboard: Quantidade de produtos em estoque:"
+      putStrLn "-------------"
+      -- Exiba o dashboard de Quantidade de Produtos em Estoque
+      let totalEstoque = quantidadeTotalEstoque produtos
+      putStrLn $ "Quantidade total de produtos em estoque: " ++ show totalEstoque
+      putStrLn "-------------"
+      exibirDashboards produtos clientes idProduto
+
+    "5" -> do
+      putStrLn "Dashboard: Produtos com estoque baixo:"
+      exibirDashboards produtos clientes idProduto
+
+    "6" -> do
+      putStrLn "Dashboard: Produtos mais populares:"
+      exibirDashboards produtos clientes idProduto
+
+    "7" -> do
+      putStrLn "Dashboard: Total de receita gerada por produto:"
+      exibirDashboards produtos clientes idProduto
+
+    "8" -> do
+      putStrLn "Total de receita gerada por categoria:"
+      admController produtos clientes idProduto
+
+    "9" -> do
+      putStrLn "Voltando ao menu do administrador."
+      admController produtos clientes idProduto
+
+    _ -> do
+      putStrLn "Opção inválida. Tente novamente."
+      exibirDashboards produtos clientes idProduto
