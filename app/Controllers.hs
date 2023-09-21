@@ -84,6 +84,7 @@ registrerController produtos clientes idProduto = do
   novoCliente <- lerCliente
   let clientes = adicionarClienteService clientes novoCliente
   putStrLn $ "Cliente Cadastrado"
+  salvarClientes clientes
   carrinhoVazio <- novoCarinhoVazio
   clienteController produtos clientes idProduto novoCliente carrinhoVazio
 
