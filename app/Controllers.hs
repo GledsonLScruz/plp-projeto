@@ -15,14 +15,14 @@ initialController produtos clientes idProduto = do
   putStrLn $ 
     "=====================================\n" ++
     "         Menu de Visitante          \n" ++
-    "=====================================\n" ++
-    "Selecione uma das opções:\n\n" ++
-    "  01. Entrar como Cliente\n" ++
-    "  02. Registrar como Cliente\n" ++
-    "  03. Entrar como Administrador\n" ++
-    "  04. Visualizar Produtos\n" ++
-    "  05. Sair do Sistema\n"
+    "=====================================\n\n" ++
+    "  (01) Entrar como Cliente\n" ++
+    "  (02) Registrar como Cliente\n" ++
+    "  (03) Entrar como Administrador\n" ++
+    "  (04) Visualizar Produtos\n" ++
+    "  (05) Sair do Sistema\n"
 
+  putStrLn "Digite a opção desejada: "
   opcao <- getLine
 
   case opcao of
@@ -73,6 +73,7 @@ loginADMController produtos clientes idProduto = do
       putStrLn $ "\nLogin Inválido tente novamente\n"
       loginADMController produtos clientes idProduto
 
+
 -- RegisterController guarda os comandos de Register
 registrerController :: [Produto] -> [Cliente] -> Int -> IO ()
 registrerController produtos clientes idProduto = do
@@ -89,21 +90,20 @@ clienteController produtos clientes idProduto clienteLogado = do
   putStrLn $ 
     "=====================================\n" ++
     "        Menu de Cliente             \n" ++
-    "=====================================\n" ++
-    "Selecione uma das opções:\n\n" ++
-    "  01. Visualizar Produtos\n" ++
-    "  02. Visualizar Produtos por Categoria\n" ++
-    "  03. Adicionar ao Carrinho\n" ++
-    "  04. Visualizar Carrinho\n" ++
-    "  05. Finalizar Compra\n" ++
-    "  06. Avaliar Produto\n" ++
-    "  07. Histórico de Compra\n" ++
-    "  08. Atualizar Meu Cadastro\n" ++
-    "  09. Deletar Minha Conta\n" ++
-    "  10. Sair do Modo Cliente\n" ++
-    "  11. Sair do Sistema\n"
+    "=====================================\n\n" ++
+    "  (01) Visualizar Produtos\n" ++
+    "  (02) Visualizar Produtos por Categoria\n" ++
+    "  (03) Adicionar ao Carrinho\n" ++
+    "  (04) Visualizar Carrinho\n" ++
+    "  (05) Finalizar Compra\n" ++
+    "  (06) Avaliar Produto\n" ++
+    "  (07) Histórico de Compra\n" ++
+    "  (08) Atualizar Meu Cadastro\n" ++
+    "  (09) Deletar Minha Conta\n" ++
+    "  (10) Sair do Modo Cliente\n" ++
+    "  (11) Sair do Sistema\n"
 
-
+  putStrLn "Digite a opção desejada: "
   opcao <- getLine
 
   case opcao of
@@ -169,22 +169,21 @@ admController produtos clientes idProduto = do
   putStrLn $
     "=====================================\n" ++
     "     Menu de Administrador           \n" ++
-    "=====================================\n" ++
-    "Selecione uma das opções:\n\n" ++
-    "  01. Visualizar Produtos\n" ++
-    "  02. Adicionar Novo Produto\n" ++
-    "  03. Atualizar Produto por Completo\n" ++
-    "  04. Visualizar Produto por Código\n" ++
-    "  05. Visualizar Produtos por Categoria\n" ++
-    "  06. Remover Produto por Código\n" ++
-    "  07. Ler Cliente por CPF\n" ++
-    "  08. Atualizar Cliente Completo\n" ++
-    "  09. Deletar Cliente por CPF\n" ++
-    "  10. Visualizar Dashboard\n" ++
-    "  11. Sair do Modo Administrador\n" ++
-    "  12. Sair do Sistema\n"
+    "=====================================\n\n" ++
+    "  (01) Visualizar Produtos\n" ++
+    "  (02) Adicionar Novo Produto\n" ++
+    "  (03) Atualizar Produto por Completo\n" ++
+    "  (04) Visualizar Produto por Código\n" ++
+    "  (05) Visualizar Produtos por Categoria\n" ++
+    "  (06) Remover Produto por Código\n" ++
+    "  (07) Ler Cliente por CPF\n" ++
+    "  (08) Atualizar Cliente Completo\n" ++
+    "  (09) Deletar Cliente por CPF\n" ++
+    "  (10) Visualizar Dashboard\n" ++
+    "  (11) Sair do Modo Administrador\n" ++
+    "  (12) Sair do Sistema\n"
 
-
+  putStrLn "Digite a opção desejada: "
   opcao <- getLine
 
   case opcao of
