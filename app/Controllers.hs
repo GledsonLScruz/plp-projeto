@@ -283,20 +283,20 @@ admController produtos clientes idProduto = do
 exibirDashboards :: [Produto] -> [Cliente] -> Int -> IO ()
 exibirDashboards produtos clientes idProduto = do
   putStrLn $ "Escolha um dashboard para exibir:\n" ++
-          "1. Total de Clientes\n" ++
-          "2. Clientes Mais Ativos\n" ++
-          "3. Média de Compras por Cliente\n" ++
-          "4. Quantidade de produtos em estoque \n" ++
-          "5. Produtos com estoque baixo \n" ++
-          "6. Produtos mais populares \n" ++
-          "7. Total de receita gerada por produto \n" ++
-          "8. Total de receita gerada por categoria \n" ++
-          "9. Voltar\n"
+          "01. Total de Clientes\n" ++
+          "02. Clientes Mais Ativos\n" ++
+          "03. Média de Compras por Cliente\n" ++
+          "04. Quantidade de produtos em estoque \n" ++
+          "05. Produtos com estoque baixo \n" ++
+          "06. Produtos mais populares \n" ++
+          "07. Total de receita gerada por produto \n" ++
+          "08. Total de receita gerada por categoria \n" ++
+          "09. Voltar\n"
 
   opcao <- getLine
 
   case opcao of
-    "1" -> do
+    "01" -> do
       putStrLn "Dashboard: Total de Clientes:"
       putStrLn "-------------"
       -- Exiba o dashboard de Total de Clientes
@@ -305,7 +305,7 @@ exibirDashboards produtos clientes idProduto = do
       putStrLn "-------------"
       exibirDashboards produtos clientes idProduto
 {-
-    "2" -> do
+    "02" -> do
       putStrLn "Dashboard: Clientes Mais Ativos:"
       putStrLn "-------------"
       -- Exiba o dashboard de Clientes Mais Ativos
@@ -315,7 +315,7 @@ exibirDashboards produtos clientes idProduto = do
       putStrLn "-------------"
       exibirDashboards produtos clientes idProduto
 
-    "3" -> do
+    "03" -> do
       putStrLn "Dashboard: Média de Compras por Cliente:"
       putStrLn "-------------"
       -- Exiba o dashboard de Média de Compras por Cliente
@@ -324,7 +324,7 @@ exibirDashboards produtos clientes idProduto = do
       putStrLn "-------------"
       exibirDashboards produtos clientes idProduto
 -}
-    "4" -> do
+    "04" -> do
       putStrLn "Dashboard: Quantidade de produtos em estoque:"
       putStrLn "-------------"
       -- Exiba o dashboard de Quantidade de Produtos em Estoque
@@ -333,23 +333,45 @@ exibirDashboards produtos clientes idProduto = do
       putStrLn "-------------"
       exibirDashboards produtos clientes idProduto
 
-    "5" -> do
+    "05" -> do
       putStrLn "Dashboard: Produtos com estoque baixo:"
+      putStrLn "-------------"
+      let produtosBaixosEstoque = produtosComEstoqueBaixo produtos
+      mapM_ (\p -> putStrLn $ "  - " ++ getNome p ++ ": " ++ show (getQuantidade p)) produtosBaixosEstoque
+      putStrLn "-------------"
       exibirDashboards produtos clientes idProduto
 
-    "6" -> do
-      putStrLn "Dashboard: Produtos mais populares:"
+    "06" -> do
+      {-
+      putStrLn "Dashboard: Produtos Mais Populares:"
+      putStrLn "-------------"
+      -- Exiba o dashboard de Produtos Mais Populares
+      let produtosPopulares = produtosMaisPopulares produtos
+      putStrLn "Produtos Mais Populares:"
+      mapM_ (\produto -> putStrLn $ "  - " ++ nome produto ++ ": " ++ show (quantidadeVendida produto) ++ " unidades vendidas") produtosPopulares
+      -}
+      putStrLn "-------------"
       exibirDashboards produtos clientes idProduto
 
-    "7" -> do
+    "07" -> do
       putStrLn "Dashboard: Total de receita gerada por produto:"
+      putStrLn "-------------"
+      let receitaTotal = receitaTotalPorProduto produtos
+      putStrLn $ "Receita total gerada por todos os produtos: R$" ++ show receitaTotal
+      putStrLn "-------------"
       exibirDashboards produtos clientes idProduto
 
-    "8" -> do
+    "08" -> do
       putStrLn "Total de receita gerada por categoria:"
-      admController produtos clientes idProduto
+      putStrLn "Digite a categoria para calcular a receita:"
+      categoria <- getLine
+      putStrLn "-------------"
+      let receitaPorCategoria = receitaTotalPorCategoria produtos categoria
+      putStrLn $ "Receita total gerada pela categoria '" ++ categoria ++ "': R$" ++ show receitaPorCategoria
+      putStrLn "-------------"
+      exibirDashboards produtos clientes idProduto
 
-    "9" -> do
+    "09" -> do
       putStrLn "Voltando ao menu do administrador."
       admController produtos clientes idProduto
 
