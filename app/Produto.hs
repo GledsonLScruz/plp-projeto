@@ -70,14 +70,23 @@ setValidade novaData produto = produto { validade = novaData }
 
 produtoToString :: Produto -> String
 produtoToString produto =
-  "----------------------------------------\n" ++
-  "Nome: " ++ nome produto ++ "\n" ++
-  "Código: " ++ show (codigo produto) ++ "\n" ++
-  "Disponível: " ++ show (disponivel produto) ++ "\n" ++
-  "Categoria: " ++ categoria produto ++ "\n" ++
-  "Preço de Compra: R$" ++ show (precoCompra produto) ++ "\n" ++
-  "Preço de Venda: R$" ++ show (precoVenda produto) ++ "\n" ++
-  "Quantidade: " ++ show (quantidade produto) ++ "\n" ++
-  "Fabricação: " ++ fabricacao produto ++ "\n" ++
-  "Validade: " ++ validade produto ++ "\n" ++
-  "----------------------------------------"
+  "========================================\n" ++
+    "Nome:        | " ++ nome produto ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Código:      | " ++ show (codigo produto) ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Disponível:  | " ++ show (disponivel produto) ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Categoria:   | " ++ categoria produto ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Preço Compra:| R$" ++ show (precoCompra produto) ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Preço Venda: | R$" ++ show (precoVenda produto) ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Quantidade:  | " ++ show (quantidade produto) ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Fabricação:  | " ++ fabricacao produto ++ "\n" ++
+    "----------------------------------------\n" ++
+    "Validade:    | " ++ validade produto ++ "\n" ++
+    "========================================"
+
