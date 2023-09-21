@@ -129,7 +129,7 @@ clienteController produtos clientes idProduto clienteLogado = do
 
     "05" -> do
       putStrLn "Falta implementar Finalizar Compra"
-      admController produtos clientes idProduto
+      clienteController produtos clientes idProduto clienteLogado
 
     "06" -> do
       putStrLn "Falta implementar Avaliar Produto"
