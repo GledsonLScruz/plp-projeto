@@ -323,7 +323,7 @@ exibirDashboards produtos clientes idProduto = do
       putStrLn $ "Total de Clientes: " ++ show totalClientes
       putStrLn "-------------"
       exibirDashboards produtos clientes idProduto
-{-
+
     "02" -> do
       putStrLn "Dashboard: Clientes Mais Ativos:"
       putStrLn "-------------"
@@ -342,7 +342,7 @@ exibirDashboards produtos clientes idProduto = do
       putStrLn $ "Média de Compras por Cliente: " ++ show mediaCompras
       putStrLn "-------------"
       exibirDashboards produtos clientes idProduto
--}
+
     "04" -> do
       putStrLn "Dashboard: Quantidade de produtos em estoque:"
       putStrLn "-------------"
