@@ -81,11 +81,11 @@ registrerController :: [Produto] -> [Cliente] -> Int -> [Produto] -> IO ()
 registrerController produtos clientes codigoProduto historicoCompras = do
   putStrLn $ "Cadastre um novo Cliente:\n"
   novoCliente <- lerCliente
-  let clientes = adicionarCliente clientes novoCliente 
+  let clientesAtualizados = adicionarCliente clientes novoCliente 
   putStrLn $ "Cliente Cadastrado"
-  salvarClientes clientes
+  salvarClientes clientesAtualizados
   let carrinhoVazio = novoCarrinhoVazio
-  clienteController produtos clientes codigoProduto novoCliente carrinhoVazio historicoCompras
+  clienteController produtos clientesAtualizados codigoProduto novoCliente carrinhoVazio historicoCompras
 
 
 -- Controller que guarda comandos do cliente
