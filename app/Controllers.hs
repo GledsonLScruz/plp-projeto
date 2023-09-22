@@ -101,12 +101,10 @@ clienteController produtos clientes codigoProduto clienteLogado carrinho histori
     "  (04) Remover do Carrinho\n" ++
     "  (05) Visualizar Carrinho\n" ++
     "  (06) Finalizar Compra\n" ++
-    "  (07) Avaliar Produto\n" ++
-    "  (08) Histórico de Compra\n" ++
-    "  (09) Atualizar Meu Cadastro\n" ++
-    "  (10) Deletar Minha Conta\n" ++
-    "  (11) Sair do Modo Cliente\n" ++
-    "  (12) Sair do Sistema\n"
+    "  (07) Atualizar Meu Cadastro\n" ++
+    "  (08) Deletar Minha Conta\n" ++
+    "  (09) Sair do Modo Cliente\n" ++
+    "  (10) Sair do Sistema\n"
 
   putStrLn "Digite a opção desejada: "
   opcao <- getLine
@@ -177,14 +175,6 @@ clienteController produtos clientes codigoProduto clienteLogado carrinho histori
       clienteController produtos clientes codigoProduto clienteLogado carrinho historicoCompras
 
     "07" -> do
-      putStrLn "Falta implementar Avaliar Produto"
-      clienteController produtos clientes codigoProduto clienteLogado carrinho historicoCompras
-
-    "08" -> do
-      putStrLn "Falta implementar Histórico de Compra"
-      clienteController produtos clientes codigoProduto clienteLogado carrinho historicoCompras
-
-    "09" -> do
       putStrLn "Digite o seu cpf para atualizar o cadastro:"
       cpf <- getLine
       novoCliente <- lerAtualizarCadastro
@@ -192,21 +182,22 @@ clienteController produtos clientes codigoProduto clienteLogado carrinho histori
       putStrLn "Cadastro atualizado com sucesso."
       clienteController produtos clientesAtualizados codigoProduto clienteLogado carrinho historicoCompras
 
-    "10" -> do
+    "08" -> do
         putStrLn "Digite o seu cpf para deletar a conta:"
         cpf <- getLine
         let clientesAtualizados = removerCliente clientes cpf
         putStrLn "Conta deletada com sucesso."
         initialController produtos clientesAtualizados codigoProduto historicoCompras
 
-    "11" -> do
+    "09" -> do
       initialController produtos clientes codigoProduto historicoCompras
 
-    "12" -> putStrLn "Saindo do sistema."
+    "10" -> putStrLn "Saindo do sistema."
 
     _ -> do
       putStrLn "Opção inválida. Tente novamente."
       clienteController produtos clientes codigoProduto clienteLogado carrinho historicoCompras
+
 
 carrinhoController :: [Produto] -> [Cliente] -> Int -> Cliente -> CarrinhoCompra -> [Produto] -> IO ()
 carrinhoController produtos clientes codigoProduto clienteLogado carrinho historicoCompras = do
@@ -344,16 +335,13 @@ admController produtos clientes codigoProduto historicoCompras = do
 -- Função para exibir os dashboards
 exibirDashboards :: [Produto] -> [Cliente] -> Int -> [Produto] -> IO ()
 exibirDashboards produtos clientes codigoProduto historicoCompras = do
-  putStrLn $ "Escolha um dashboard para exibir:\n" ++
-          "01. Total de Clientes\n" ++
-          "02. Clientes Mais Ativos\n" ++
-          "03. Média de Compras por Cliente\n" ++
-          "04. Quantidade de produtos em estoque \n" ++
-          "05. Produtos com estoque baixo \n" ++
-          "06. Produtos mais populares \n" ++
-          "07. Total de receita gerada por produto \n" ++
-          "08. Total de receita gerada por categoria \n" ++
-          "09. Voltar\n"
+  putStrLn $ "Escolha um dashboard para exibir:\n\n" ++
+          "(01) Total de Clientes\n" ++
+          "(02) Quantidade de produtos em estoque \n" ++
+          "(03) Produtos com estoque baixo \n" ++
+          "(04) Total de receita gerada por produto \n" ++
+          "(05) Total de receita gerada por categoria \n" ++
+          "(06) Voltar\n"
 
   opcao <- getLine
 
@@ -366,27 +354,8 @@ exibirDashboards produtos clientes codigoProduto historicoCompras = do
       putStrLn $ "Total de Clientes: " ++ show totalClientes
       putStrLn "-------------"
       exibirDashboards produtos clientes codigoProduto historicoCompras
-{-
-    "02" -> do
-      putStrLn "Dashboard: Clientes Mais Ativos:"
-      putStrLn "-------------"
-      -- Exiba o dashboard de Clientes Mais Ativos
-      let clientesAtivos = clientesMaisAtivos clientes
-      putStrLn "Clientes Mais Ativos:"
-      mapM_ (\cliente -> putStrLn $ "  - " ++ nomeCompleto cliente ++ ": " ++ show (length (historicoCompras cliente)) ++ " compras") clientesAtivos
-      putStrLn "-------------"
-      exibirDashboards produtos clientes codigoProduto historicoCompras
 
-    "03" -> do
-      putStrLn "Dashboard: Média de Compras por Cliente:"
-      putStrLn "-------------"
-      -- Exiba o dashboard de Média de Compras por Cliente
-      let mediaCompras = mediaComprasPorCliente clientes
-      putStrLn $ "Média de Compras por Cliente: " ++ show mediaCompras
-      putStrLn "-------------"
-      exibirDashboards produtos clientes codigoProduto historicoCompras
--}
-    "04" -> do
+    "02" -> do
       putStrLn "Dashboard: Quantidade de produtos em estoque:"
       putStrLn "-------------"
       -- Exiba o dashboard de Quantidade de Produtos em Estoque
@@ -395,7 +364,7 @@ exibirDashboards produtos clientes codigoProduto historicoCompras = do
       putStrLn "-------------"
       exibirDashboards produtos clientes codigoProduto historicoCompras
 
-    "05" -> do
+    "03" -> do
       putStrLn "Dashboard: Produtos com estoque baixo:"
       putStrLn "-------------"
       let produtosBaixosEstoque = produtosComEstoqueBaixo produtos
@@ -403,19 +372,7 @@ exibirDashboards produtos clientes codigoProduto historicoCompras = do
       putStrLn "-------------"
       exibirDashboards produtos clientes codigoProduto historicoCompras
 
-    "06" -> do
-      {-
-      putStrLn "Dashboard: Produtos Mais Populares:"
-      putStrLn "-------------"
-      -- Exiba o dashboard de Produtos Mais Populares
-      let produtosPopulares = produtosMaisPopulares produtos
-      putStrLn "Produtos Mais Populares:"
-      mapM_ (\produto -> putStrLn $ "  - " ++ nome produto ++ ": " ++ show (quantidadeVendida produto) ++ " unidades vendidas") produtosPopulares
-      -}
-      putStrLn "-------------"
-      exibirDashboards produtos clientes codigoProduto historicoCompras
-
-    "07" -> do
+    "04" -> do
       putStrLn "Dashboard: Total de receita gerada por produto:"
       putStrLn "-------------"
       let receitaTotal = receitaTotalPorProduto produtos
@@ -423,7 +380,7 @@ exibirDashboards produtos clientes codigoProduto historicoCompras = do
       putStrLn "-------------"
       exibirDashboards produtos clientes codigoProduto historicoCompras
 
-    "08" -> do
+    "05" -> do
       putStrLn "Total de receita gerada por categoria:"
       putStrLn "Digite a categoria para calcular a receita:"
       categoria <- getLine
@@ -433,7 +390,7 @@ exibirDashboards produtos clientes codigoProduto historicoCompras = do
       putStrLn "-------------"
       exibirDashboards produtos clientes codigoProduto historicoCompras
 
-    "09" -> do
+    "06" -> do
       putStrLn "Voltando ao menu do administrador."
       admController produtos clientes codigoProduto historicoCompras
 
