@@ -33,3 +33,20 @@ atualizarCliente (cliente:clientes) cpfCliente novoCliente
   | cpf cliente == cpfCliente = do
       novoCliente : clientes
   | otherwise = cliente : atualizarCliente clientes cpfCliente novoCliente
+
+-- Função para um cliente atualizar o próprio cadastro
+atualizarCadastroCliente :: [Cliente] -> String -> Cliente -> [Cliente]
+atualizarCadastroCliente clientes cpfAtualizacao novoCliente =
+  case buscarClientePorCpf clientes cpfAtualizacao of
+    Just clienteExistente ->
+      let clienteAtualizado = clienteExistente { 
+            sexo = sexo novoCliente,
+            dataNascimento = dataNascimento novoCliente,
+            email = email novoCliente,
+            telefone = telefone novoCliente,
+            nomeUsuario = nomeUsuario novoCliente,
+            senha = senha novoCliente
+          }
+          clientesAtualizados = atualizarCliente clientes cpfAtualizacao clienteAtualizado
+      in clientesAtualizados
+    Nothing -> clientes

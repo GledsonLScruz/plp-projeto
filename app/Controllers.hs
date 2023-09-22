@@ -4,8 +4,6 @@ import Produto
 import Cliente
 import ProdutoRepository
 import ClienteRepository
-import ProdutoService
-import ClienteService
 import Auxiliares
 import Tabela
 import Dashboards
@@ -83,7 +81,7 @@ registrerController :: [Produto] -> [Cliente] -> Int -> [Produto] -> IO ()
 registrerController produtos clientes codigoProduto historicoCompras = do
   putStrLn $ "Cadastre um novo Cliente:\n"
   novoCliente <- lerCliente
-  let clientes = adicionarClienteService clientes novoCliente 
+  let clientes = adicionarCliente clientes novoCliente 
   putStrLn $ "Cliente Cadastrado"
   salvarClientes clientes
   let carrinhoVazio = novoCarrinhoVazio
@@ -121,7 +119,7 @@ clienteController produtos clientes codigoProduto clienteLogado carrinho histori
     "02" -> do
         putStrLn "Digite a categoria a ser buscada:"
         categoria <- getLine
-        let produtosEncontrados = buscarProdutosPorCategoriaService produtos categoria
+        let produtosEncontrados = buscarProdutosPorCategoria produtos categoria
         mapM_ (putStrLn . produtoToStringDTO) produtosEncontrados
         clienteController produtos clientes codigoProduto clienteLogado carrinho historicoCompras
 
@@ -129,7 +127,7 @@ clienteController produtos clientes codigoProduto clienteLogado carrinho histori
       putStrLn "Digite o codigo do produto que você deseja adicionar ao Carrinho:"
       codigoProdutoStr <- getLine
       let codigoProduto = read codigoProdutoStr :: Int
-      let produto = buscarProdutoPorCodigoService produtos codigoProduto
+      let produto = buscarProdutoPorCodigo produtos codigoProduto
       case produto of
         Just p -> do
           putStrLn $ "O produto:\n" ++ produtoToString p ++ "\nFoi adicionado ao Carrinho!!\n"
@@ -143,7 +141,7 @@ clienteController produtos clientes codigoProduto clienteLogado carrinho histori
       putStrLn "Digite o codigo do produto que você deseja remover do Carrinho:"
       codigoProdutoStr <- getLine
       let codigoProduto = read codigoProdutoStr :: Int
-      let produto = buscarProdutoPorCodigoService produtos codigoProduto
+      let produto = buscarProdutoPorCodigo produtos codigoProduto
       case produto of
         Just p -> do
           putStrLn $ "O produto:\n" ++ produtoToString p ++ "\nFoi removido do Carrinho!!\n"
@@ -190,14 +188,14 @@ clienteController produtos clientes codigoProduto clienteLogado carrinho histori
       putStrLn "Digite o seu cpf para atualizar o cadastro:"
       cpf <- getLine
       novoCliente <- lerAtualizarCadastro
-      let clientesAtualizados = atualizarCadastroClienteService clientes cpf novoCliente
+      let clientesAtualizados = atualizarCadastroCliente clientes cpf novoCliente
       putStrLn "Cadastro atualizado com sucesso."
       clienteController produtos clientesAtualizados codigoProduto clienteLogado carrinho historicoCompras
 
     "10" -> do
         putStrLn "Digite o seu cpf para deletar a conta:"
         cpf <- getLine
-        let clientesAtualizados = removerClienteService clientes cpf
+        let clientesAtualizados = removerCliente clientes cpf
         putStrLn "Conta deletada com sucesso."
         initialController produtos clientesAtualizados codigoProduto historicoCompras
 
@@ -215,7 +213,7 @@ carrinhoController produtos clientes codigoProduto clienteLogado carrinho histor
   putStrLn "Insira o código do produto que você deseja adicionar ao Carrinho:"
   codigoProdutoStr <- getLine
   let codigoProduto = read codigoProdutoStr :: Int
-  let produto = buscarProdutoPorCodigoService produtos codigoProduto
+  let produto = buscarProdutoPorCodigo produtos codigoProduto
   case produto of
     Just p -> do
       putStrLn $ "O produto:\n" ++ produtoToString p ++ "\nFoi adicionado ao Carrinho!!\n"
@@ -256,7 +254,7 @@ admController produtos clientes codigoProduto historicoCompras = do
 
     "02" -> do
       novoProduto <- lerProduto codigoProduto
-      let produtosAtualizados = adicionarProdutoService produtos novoProduto
+      let produtosAtualizados = adicionarProduto produtos novoProduto
       putStrLn "Produto adicionado com sucesso."
       salvarProdutos produtosAtualizados
       let codigoAtualizado = codigoProduto + 1
@@ -268,7 +266,7 @@ admController produtos clientes codigoProduto historicoCompras = do
       codigoProdutoStr <- getLine
       let codigoProduto = read codigoProdutoStr :: Int
       novoProduto <- lerProduto codigoProduto
-      let produtosAtualizados = atualizarProdutoService produtos codigoProduto novoProduto
+      let produtosAtualizados = atualizarProduto produtos codigoProduto novoProduto
       putStrLn "Produto atualizado com sucesso."
       salvarProdutos produtosAtualizados
       admController produtosAtualizados clientes codigoProduto historicoCompras
@@ -277,7 +275,7 @@ admController produtos clientes codigoProduto historicoCompras = do
       putStrLn "Digite o código do produto a ser visualizado:"
       codigoProdutoStr <- getLine
       let codigoProduto = read codigoProdutoStr :: Int
-      let produto = buscarProdutoPorCodigoService produtos codigoProduto
+      let produto = buscarProdutoPorCodigo produtos codigoProduto
       case produto of
         Just p -> do
           putStrLn $ produtoToString p
@@ -289,7 +287,7 @@ admController produtos clientes codigoProduto historicoCompras = do
     "05" -> do
       putStrLn "Digite a categoria a ser buscada:"
       categoria <- getLine
-      let produtosEncontrados = buscarProdutosPorCategoriaService produtos categoria
+      let produtosEncontrados = buscarProdutosPorCategoria produtos categoria
       mapM_ (putStrLn . produtoToString) produtosEncontrados
       admController produtos clientes codigoProduto historicoCompras
 
@@ -297,7 +295,7 @@ admController produtos clientes codigoProduto historicoCompras = do
       putStrLn "Digite o código do produto a ser removido:"
       codigoProdutoStr <- getLine
       let codigoProduto = read codigoProdutoStr :: Int
-      let produtosAtualizados = removerProdutoService produtos codigoProduto
+      let produtosAtualizados = removerProduto produtos codigoProduto
       putStrLn "Produto removido com sucesso."
       salvarProdutos produtosAtualizados
       admController produtosAtualizados clientes codigoProduto historicoCompras
@@ -305,7 +303,7 @@ admController produtos clientes codigoProduto historicoCompras = do
     "07" -> do
         putStrLn "Digite o CPF do cliente a ser buscado:"
         cpfCliente <- getLine
-        let cliente = buscarClientePorCpfService clientes cpfCliente
+        let cliente = buscarClientePorCpf clientes cpfCliente
         case cliente of
             Just c -> do
                 putStrLn $ clienteToString c
@@ -318,7 +316,7 @@ admController produtos clientes codigoProduto historicoCompras = do
         putStrLn "Digite o CPF do cliente a ser atualizado:"
         cpfCliente <- getLine
         novoCliente <- lerCliente
-        let clientesAtualizados = atualizarClienteService clientes cpfCliente novoCliente
+        let clientesAtualizados = atualizarCliente clientes cpfCliente novoCliente
         putStrLn "Cliente atualizado com sucesso."
         salvarClientes clientesAtualizados
         admController produtos clientes codigoProduto historicoCompras
@@ -326,7 +324,7 @@ admController produtos clientes codigoProduto historicoCompras = do
     "09" -> do
         putStrLn "Digite o CPF do cliente a ser removido:"
         cpfCliente <- getLine
-        let clientesAtualizados = removerClienteService clientes cpfCliente
+        let clientesAtualizados = removerCliente clientes cpfCliente
         putStrLn "Cliente removido com sucesso."
         salvarClientes clientesAtualizados
         admController produtos clientes codigoProduto historicoCompras
