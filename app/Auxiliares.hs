@@ -123,27 +123,6 @@ criarRepositorioClientesExemplo = [
     Cliente {nomeCompleto = "Ana Maria", sexo = 'F', dataNascimento = "01/01/1996", cpf = "123.456.789-00", email = "ana@outlook.com", telefone = "(11) 99999-9999", nomeUsuario = "ana.maria", senha = "123456"}]
 
 
--- Function to generate a random 12-digit number
-generateRandom12DigitNumber :: IO String
-generateRandom12DigitNumber = do
-    gen <- newStdGen
-    let randomNumber = take 12 $ randomRs ('0', '9') gen
-    return randomNumber
-
--- Function to calculate the EAN-13 checksum digit
-calculateEAN13Checksum :: [Int] -> Int
-calculateEAN13Checksum digits =
-    let odds = sum (map snd (filter (\(i, _) -> odd i) (zip [1..] digits))) * 3
-        evens = sum (map snd (filter (\(i, _) -> even i) (zip [1..] digits)))
-    in (10 - ((odds + evens) `mod` 10)) `mod` 10
-
--- Function to generate the complete EAN-13 code
-generateEAN13 :: String -> String
-generateEAN13 input =
-    let digits = read input
-        checksum = calculateEAN13Checksum digits
-        in input ++ show checksum
-
 -- Função para adicionar produtos no histórico de compras
 adicionarProdutosHistorico :: [Produto] -> [Produto] -> [Produto]
 adicionarProdutosHistorico listaOriginal produtosNovos = listaOriginal ++ produtosNovos
