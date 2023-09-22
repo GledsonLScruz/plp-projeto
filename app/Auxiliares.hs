@@ -73,10 +73,8 @@ lerCliente = do
       , senha = senha
       }
 
-novoCarrinhoVazio :: IO Carrinho
-novoCarrinhoVazio = Carrinho{
-	produtos =  []
-	}
+novoCarrinhoVazio :: CarrinhoCompra
+novoCarrinhoVazio = CarrinhoCompra { produtos = [] }
 
 -- Função auxiliar para ler um novo cliente do usuário
 lerAtualizarCadastro :: IO Cliente
@@ -145,3 +143,7 @@ generateEAN13 input =
     let digits = read input
         checksum = calculateEAN13Checksum digits
         in input ++ show checksum
+
+-- Função para adicionar produtos no histórico de compras
+adicionarProdutosHistorico :: [Produto] -> [Produto] -> [Produto]
+adicionarProdutosHistorico listaOriginal produtosNovos = listaOriginal ++ produtosNovos

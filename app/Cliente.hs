@@ -1,5 +1,7 @@
 module Cliente where
 
+import Produto
+
 data Cliente = Cliente
   { nomeCompleto :: String
   , sexo :: Char

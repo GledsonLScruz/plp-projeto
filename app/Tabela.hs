@@ -1,5 +1,6 @@
 module Tabela where
 
+import System.IO
 import Data.Csv
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.Vector as V
@@ -31,6 +32,7 @@ instance ToRecord Cliente where
     , toField (Cliente.telefone c)
     , toField (Cliente.nomeUsuario c)
     , toField (Cliente.senha c)
+
     ]
 
 -- Função para salvar uma lista de produtos em um arquivo CSV
@@ -108,3 +110,31 @@ stringToBool :: String -> Bool
 stringToBool "True" = True
 stringToBool "False" = False
 stringToBool _ = False  
+
+-- Função para salvar o valor inteiro em um arquivo CSV
+salvarCodigo :: Int -> IO ()
+salvarCodigo valor = do
+  let csvData = encode [Only valor] 
+  BL.writeFile "codigo.csv" csvData
+
+lerCodigo :: String -> IO Int
+lerCodigo path = do
+  handle <- openFile path ReadMode
+  conteudo <- hGetContents handle
+  let meuID = read conteudo :: Int
+  hClose handle
+  return meuID
+ 
+salvarHistoricoCompras :: [Produto] -> IO ()
+salvarHistoricoCompras historicoCompras = do
+  let csvData = encode historicoCompras
+  BL.writeFile "historicoCompras.csv" csvData
+
+lerHistoricoComprasCSV :: FilePath -> IO [Produto]
+lerHistoricoComprasCSV filePath = do
+  csvData <- BL.readFile filePath
+  case decode NoHeader csvData of
+    Left err -> do
+      putStrLn $ "Erro ao ler o arquivo CSV: " ++ err
+      return []
+    Right rows -> return $ V.toList rows
