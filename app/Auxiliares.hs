@@ -5,6 +5,7 @@ import Produto
 import Cliente
 import System.Random
 import Data.List
+import CarrinhoService
 
 -- Função auxiliar para ler um novo produto do usuário
 lerProduto :: Int -> IO Produto
@@ -71,6 +72,11 @@ lerCliente = do
       , nomeUsuario = nomeUsuario
       , senha = senha
       }
+
+novoCarrinhoVazio :: IO Carrinho
+novoCarrinhoVazio = Carrinho{
+	produtos =  []
+	}
 
 -- Função auxiliar para ler um novo cliente do usuário
 lerAtualizarCadastro :: IO Cliente
