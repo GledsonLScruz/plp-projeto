@@ -125,3 +125,16 @@ lerCodigo path = do
   hClose handle
   return meuID
  
+salvarHistoricoCompras :: [Produto] -> IO ()
+salvarHistoricoCompras historicoCompras = do
+  let csvData = encode historicoCompras
+  BL.writeFile "historicoCompras.csv" csvData
+
+lerHistoricoComprasCSV :: FilePath -> IO [Produto]
+lerHistoricoComprasCSV filePath = do
+  csvData <- BL.readFile filePath
+  case decode NoHeader csvData of
+    Left err -> do
+      putStrLn $ "Erro ao ler o arquivo CSV: " ++ err
+      return []
+    Right rows -> return $ V.toList rows

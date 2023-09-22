@@ -143,3 +143,7 @@ generateEAN13 input =
     let digits = read input
         checksum = calculateEAN13Checksum digits
         in input ++ show checksum
+
+-- Função para adicionar produtos no histórico de compras
+adicionarProdutosHistorico :: [Produto] -> [Produto] -> [Produto]
+adicionarProdutosHistorico listaOriginal produtosNovos = listaOriginal ++ produtosNovos
