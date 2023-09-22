@@ -40,23 +40,37 @@ O objetivo deste projeto é criar um sistema eficiente para um supermercado, for
 
 - **Histórico de Compra:** Veja o histórico de suas compras anteriores.
 
+## Pré-requisitos
+
+Certifique-se de ter os seguintes pré-requisitos instalados em sua máquina:
+
+- [GHC (Glasgow Haskell Compiler) 9.6.2](https://www.haskell.org/ghc/)
+- [Cabal 3.10.1.0](https://www.haskell.org/cabal/)
+
 ## Instalação
 
 Instalação:
-	* Caso tenha algum problema ao compilar o projeto instalar a Lib Random
-		ex: cabal install random
+```bash
+git clone https://github.com/GledsonLScruz/plp-projeto.git
+```
 
-## Contribuição
+Acesse o diretório do projeto:
+```bash
+ cd seu-repositorio
+```
 
-Se você deseja contribuir para este projeto, siga as diretrizes de contribuição descritas no arquivo [CONTRIBUTING.md](CONTRIBUTING.md).
+Compile e execute o sistema: 
+```bash
+cabal build
+cabal run
+```
 
 ## Licença
 
-Este projeto é licenciado sob a Licença XYZ. Consulte o arquivo [LICENSE](LICENSE) para obter detalhes.
+Este projeto é distribuído sob a licença MIT. Consulte o arquivo [LICENSE] para obter mais detalhes.
+## Disciplina
 
-## Contato
-
-Para qualquer dúvida ou sugestões, entre em contato com a equipe de desenvolvimento.
+Este sistema foi desenvolvido como parte do projeto da disciplina de Paradigmas de Linguagens de Programação da Universidade Federal de Campina Grande.
 
 ---
 
